@@ -3,6 +3,12 @@
    Breakpoints: 320 | 360 | 425 | 480 | 640 | 768 | 1024 | 1280+
    ============================================================ */
 
+/* ── GLOBAL OVERFLOW SAFETY NET ───────────────────────────── */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 /* ── NAVBAR / LOGO RESPONSIVENESS ──────────────────────────── */
 
 /* Desktop defaults (min-width: 1025px) */
@@ -328,6 +334,80 @@
   .topbar-title h2 { font-size: 0.95rem; }
   .live-indicator { display: none; } /* Hide text badge to fit layout on small screens */
   .topbar-actions { gap: 0.75rem; }
+}
+
+
+/* ── CONTACT PAGE ─────────────────────────────────────────── */
+
+/* Collapse the Full Name / Gmail 2-col grid to 1-col on mobile */
+@media (max-width: 600px) {
+  #contact-form > div[style*="grid-template-columns"],
+  #contact-form .form-row-2col {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+
+  #contact-form {
+    padding: 1.25rem !important;
+  }
+
+  #form-section > .container > div {
+    max-width: 100% !important;
+    padding: 0;
+  }
+}
+
+
+/* ── SPLIT HERO (inner pages) ─────────────────────────────── */
+
+@media (max-width: 640px) {
+  .split-hero {
+    padding: 7rem 0 3.5rem 0;
+  }
+
+  .split-hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .split-hero-image-wrapper {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@media (max-width: 425px) {
+  .split-hero-content h1 {
+    font-size: 1.75rem;
+  }
+
+  .split-hero-content p {
+    font-size: 0.95rem;
+  }
+}
+
+
+/* ── FAQ CARDS ─────────────────────────────────────────────── */
+
+@media (max-width: 480px) {
+  .faq-item.glass-card {
+    padding: 1.25rem !important;
+  }
+
+  .faq-header h3 {
+    font-size: 0.95rem !important;
+    padding-right: 0.5rem;
+  }
+}
+
+
+/* ── TOAST NOTIFICATIONS ───────────────────────────────────── */
+
+@media (max-width: 480px) {
+  .toast-container {
+    left: 1rem;
+    right: 1rem;
+    max-width: calc(100vw - 2rem);
+  }
 }
 
 
