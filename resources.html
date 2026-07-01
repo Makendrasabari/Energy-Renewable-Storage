@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stackly Resources - Technical Whitepapers & Safety Guides</title>
+  <meta name="description" content="Access Stackly's document library containing container brochures, battery safety guidelines, system specs, and clean energy whitepapers.">
+  
+  <!-- Fonts & Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <!-- Preloader Screen -->
+  <div id="preloader" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: #07090e; z-index: 99999; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease, visibility 0.5s ease;">
+    <div class="preloader-content" style="display: flex; flex-direction: column; align-items: center; gap: 1.5rem;">
+      <div class="preloader-letters" style="display: flex; gap: 0rem; font-family: var(--font-heading); font-size: 2.5rem; font-weight: 800; letter-spacing: 0px; color: white; transition: gap 0.8s cubic-bezier(0.25, 1, 0.5, 1);">
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(30px);">S</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(15px);">T</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(0px);">A</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(-15px);">C</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(-30px);">K</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(-45px); color: var(--color-primary);">L</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(-60px); color: var(--color-primary);">Y</span>
+      </div>
+      <div style="width: 120px; height: 2px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; position: relative;">
+        <div id="preloader-bar" style="position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, var(--color-primary), transparent); animation: loading-bar 1.5s infinite ease-in-out;"></div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    @keyframes loading-bar {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+  </style>
+
+  <script>
+    (function() {
+      const preloader = document.getElementById('preloader');
+      const lettersContainer = document.querySelector('.preloader-letters');
+      const letters = document.querySelectorAll('.p-letter');
+      
+      setTimeout(() => {
+        if (lettersContainer) lettersContainer.style.gap = '1.25rem';
+        letters.forEach(letter => {
+          letter.style.opacity = '1';
+          letter.style.transform = 'translateX(0)';
+        });
+      }, 100);
+
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          if (preloader) {
+            preloader.style.opacity = '0';
+            preloader.style.visibility = 'hidden';
+            setTimeout(() => preloader.remove(), 500);
+          }
+        }, 1200);
+      });
+    })();
+  </script>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Sticky Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <img src="assets/logo stk.webp" alt="Stackly Logo" style="height: 38px; width: auto; object-fit: contain;">
+      </a>
+      
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="solutions.html">Solutions</a></li>
+        <li><a href="resources.html" class="active">Resources</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="nav-cta-mobile" style="display: none;"><a href="login.html" class="btn btn-primary" style="color: white; width: 100%; text-align: center;">Login</a></li>
+      </ul>
+
+      <div class="nav-cta">
+        <a href="login.html" class="btn btn-primary" style="color: white;">Login</a>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Section 1: Split Hero / Introduction -->
+  <section class="split-hero">
+    <div class="container split-hero-container">
+      <div class="split-hero-content">
+        <span class="section-tag">Library Portal</span>
+        <h1>Stackly Document & Telemetry Hub</h1>
+        <p>Download product brochures, compliance certifications, clean energy whitepapers, and commissioning safety files.</p>
+      </div>
+      <div class="split-hero-image-wrapper">
+        <img src="assets/hero-slider-2.webp" alt="Offshore Wind Buffering">
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Featured Publications -->
+  <section id="featured-resources" class="fade-up">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-tag">Curated Reads</span>
+        <h2 class="section-title">Essential Grid Integration Guides</h2>
+        <p class="section-desc">Recommended publications for utility administrators and energy analysts planning large capacity deployments.</p>
+      </div>
+
+      <div class="solutions-grid stagger-cards">
+        <!-- Card 1 -->
+        <div class="glass-card resource-card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 0; overflow: hidden;">
+          <div>
+            <div style="width: 100%; height: 180px; overflow: hidden;">
+              <img src="assets/resource-grid.webp" alt="Grid Interconnection" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div style="padding: 1.5rem;">
+              <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">2026 Grid Interconnection Report</h3>
+              <p style="color: var(--color-text-secondary); font-size: 0.85rem; margin-bottom: 0;">An in-depth analysis of battery storage compliance codes under IEEE 1547 and dynamic grid ride-through standards.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="glass-card resource-card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 0; overflow: hidden;">
+          <div>
+            <div style="width: 100%; height: 180px; overflow: hidden;">
+              <img src="assets/resource-fire.webp" alt="BESS Fire Protection" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div style="padding: 1.5rem;">
+              <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">BESS Fire Protection Guide</h3>
+              <p style="color: var(--color-text-secondary); font-size: 0.85rem; margin-bottom: 0;">Reviewing thermal management systems, lithium cell ventilation standards, and compliance layouts under NFPA 855.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="glass-card resource-card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 0; overflow: hidden;">
+          <div>
+            <div style="width: 100%; height: 180px; overflow: hidden;">
+              <img src="assets/resource-ems.webp" alt="Stackly EMS Specs" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div style="padding: 1.5rem;">
+              <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Stackly EMS Core Specifications</h3>
+              <p style="color: var(--color-text-secondary); font-size: 0.85rem; margin-bottom: 0;">Technical product data sheet detailing Modbus APIs, IoT gateway security keys, and machine learning load models.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Interactive Search & Filter Directory -->
+  <section id="directory" style="background: var(--color-navy-dark);" class="fade-up">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-tag">Document Database</span>
+        <h2 class="section-title">Resource Directory Catalog</h2>
+        <p class="section-desc">Search and filter our complete catalog of brochures, case studies, and safety files.</p>
+      </div>
+
+      <!-- Controls -->
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 2rem; margin-bottom: 3rem; flex-wrap: wrap;">
+        <!-- Search bar -->
+        <div style="display: flex; gap: 0.5rem; background: var(--color-navy-light); border: 1px solid var(--color-border); border-radius: 9999px; padding: 0.5rem 1.5rem; align-items: center; width: 100%; max-width: 400px;">
+          <i class="fas fa-search" style="color: var(--color-text-muted);"></i>
+          <input type="text" id="resource-search" placeholder="Search catalog..." style="background: transparent; border: none; outline: none; color: black; width: 100%; font-size: 0.95rem;">
+        </div>
+
+        <!-- Filter tabs -->
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+          <button class="btn btn-outline resource-filter-btn active" data-filter="all">All Documents</button>
+          <button class="btn btn-outline resource-filter-btn" data-filter="spec">Specifications</button>
+          <button class="btn btn-outline resource-filter-btn" data-filter="case">Case Studies</button>
+          <button class="btn btn-outline resource-filter-btn" data-filter="safety">Safety & UL</button>
+        </div>
+      </div>
+
+      <!-- Grid -->
+      <div class="projects-grid" id="resource-grid">
+        <!-- Item 1 -->
+        <div class="glass-card resource-item timeline-card-hover" data-category="spec" style="padding: 2rem;">
+          <span style="font-size: 0.7rem; font-weight: 700; color: var(--color-primary); background: rgba(16,185,129,0.1); padding: 0.25rem 0.5rem; border-radius: 4px; text-transform: uppercase;">Specifications</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.75rem; margin-bottom: 0.5rem;">PowerCube Pro Brochure</h3>
+          <p style="color: var(--color-text-secondary); font-size: 0.85rem; margin-bottom: 1.5rem;">Megawatt capacity dimensions, rack layouts, cooling lines configurations.</p>
+          <a href="404.html" class="download-link" data-doc="PowerCube Pro Brochure" style="font-weight:600; color:var(--color-primary); font-size: 0.85rem;">Download PDF <i class="fas fa-arrow-down" style="font-size: 0.75rem; margin-left: 0.25rem;"></i></a>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="glass-card resource-item timeline-card-hover" data-category="case" style="padding: 2rem;">
+          <span style="font-size: 0.7rem; font-weight: 700; color: var(--color-secondary); background: rgba(59,130,246,0.1); padding: 0.25rem 0.5rem; border-radius: 4px; text-transform: uppercase;">Case Study</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.75rem; margin-bottom: 0.5rem;">Mojave 1000MWh Installation</h3>
+          <p style="color: var(--color-text-secondary); font-size: 0.85rem; margin-bottom: 1.5rem;">Operational details on solar buffering and summer peak shaving margins.</p>
+          <a href="404.html" class="download-link" data-doc="Mojave 1000MWh Case Study" style="font-weight:600; color:var(--color-secondary); font-size: 0.85rem;">Download PDF <i class="fas fa-arrow-down" style="font-size: 0.75rem; margin-left: 0.25rem;"></i></a>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="glass-card resource-item timeline-card-hover" data-category="safety" style="padding: 2rem;">
+          <span style="font-size: 0.7rem; font-weight: 700; color: #eab308; background: rgba(234,179,8,0.1); padding: 0.25rem 0.5rem; border-radius: 4px; text-transform: uppercase;">Safety & UL</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.75rem; margin-bottom: 0.5rem;">UL 1973 Safety Compliance</h3>
+          <p style="color: var(--color-text-secondary); font-size: 0.85rem; margin-bottom: 1.5rem;">Certificate of compliance reports for static storage modules testing standards.</p>
+          <a href="404.html" class="download-link" data-doc="UL 1973 Safety Certificate" style="font-weight:600; color:#eab308; font-size: 0.85rem;">Download PDF <i class="fas fa-arrow-down" style="font-size: 0.75rem; margin-left: 0.25rem;"></i></a>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="glass-card resource-item timeline-card-hover" data-category="spec" style="padding: 2rem;">
+          <span style="font-size: 0.7rem; font-weight: 700; color: var(--color-primary); background: rgba(16,185,129,0.1); padding: 0.25rem 0.5rem; border-radius: 4px; text-transform: uppercase;">Specifications</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.75rem; margin-bottom: 0.5rem;">MicroCube C&I Data Sheet</h3>
+          <p style="color: var(--color-text-secondary); font-size: 0.85rem; margin-bottom: 1.5rem;">Commercial battery sizing (100kWh - 500kWh) footprint requirements.</p>
+          <a href="404.html" class="download-link" data-doc="MicroCube Data Sheet" style="font-weight:600; color:var(--color-primary); font-size: 0.85rem;">Download PDF <i class="fas fa-arrow-down" style="font-size: 0.75rem; margin-left: 0.25rem;"></i></a>
+        </div>
+
+        <!-- Item 5 -->
+        <div class="glass-card resource-item timeline-card-hover" data-category="case" style="padding: 2rem;">
+          <span style="font-size: 0.7rem; font-weight: 700; color: var(--color-secondary); background: rgba(59,130,246,0.1); padding: 0.25rem 0.5rem; border-radius: 4px; text-transform: uppercase;">Case Study</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.75rem; margin-bottom: 0.5rem;">BMW Munich Peak Shaving</h3>
+          <p style="color: var(--color-text-secondary); font-size: 0.85rem; margin-bottom: 1.5rem;">Financial models outlining ROI yield on factory sub-station upgrades.</p>
+          <a href="404.html" class="download-link" data-doc="BMW Munich Case Study" style="font-weight:600; color:var(--color-secondary); font-size: 0.85rem;">Download PDF <i class="fas fa-arrow-down" style="font-size: 0.75rem; margin-left: 0.25rem;"></i></a>
+        </div>
+
+        <!-- Item 6 -->
+        <div class="glass-card resource-item timeline-card-hover" data-category="safety" style="padding: 2rem;">
+          <span style="font-size: 0.7rem; font-weight: 700; color: #eab308; background: rgba(234,179,8,0.1); padding: 0.25rem 0.5rem; border-radius: 4px; text-transform: uppercase;">Safety & UL</span>
+          <h3 style="font-size: 1.15rem; margin-top: 0.75rem; margin-bottom: 0.5rem;">UN 38.3 Shipping Safeties</h3>
+          <p style="color: var(--color-text-secondary); font-size: 0.85rem; margin-bottom: 1.5rem;">Guidelines for international transport logistics on battery cell containment packs.</p>
+          <a href="404.html" class="download-link" data-doc="UN 38.3 Shipping Guide" style="font-weight:600; color:#eab308; font-size: 0.85rem;">Download PDF <i class="fas fa-arrow-down" style="font-size: 0.75rem; margin-left: 0.25rem;"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Video Webinars -->
+  <section id="videos" class="fade-up">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-tag">Media Hub</span>
+        <h2 class="section-title">Featured Webinars & Tech Talks</h2>
+        <p class="section-desc">Watch our application engineers detail grid integration procedures and software configuration loops.</p>
+      </div>
+
+      <div class="projects-grid stagger-cards">
+        <!-- Video 1 -->
+        <div class="glass-card" style="padding:0; overflow:hidden;">
+          <div style="height: 180px; background-image: linear-gradient(rgba(7,9,14,0.3), rgba(7,9,14,0.6)), url('assets/hero-slider-3.webp'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; position: relative;">
+            <button class="play-btn" data-video="PowerCube Pro Container Installation Walkthrough" style="width: 4rem; height: 4rem; background: var(--color-primary); color: white; border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; cursor: pointer; box-shadow: var(--shadow-glow-green); transition: 0.3s;"><i class="fas fa-play" style="margin-left: 0.25rem;"></i></button>
+          </div>
+          <div style="padding: 1.5rem;">
+            <span style="font-size: 0.75rem; color: var(--color-text-muted);">Duration: 18 Mins</span>
+            <h3 style="font-size: 1.1rem; margin-top: 0.35rem;">PowerCube Pro Installation Walkthrough</h3>
+          </div>
+        </div>
+
+        <!-- Video 2 -->
+        <div class="glass-card" style="padding:0; overflow:hidden;">
+          <div style="height: 180px; background-image: linear-gradient(rgba(7,9,14,0.3), rgba(7,9,14,0.6)), url('assets/hero-slider-5.webp'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; position: relative;">
+            <button class="play-btn" data-video="Optimizing Grid Arbitrage with EMS Core AI" style="width: 4rem; height: 4rem; background: var(--color-secondary); color: white; border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; cursor: pointer; box-shadow: var(--shadow-glow-blue); transition: 0.3s;"><i class="fas fa-play" style="margin-left: 0.25rem;"></i></button>
+          </div>
+          <div style="padding: 1.5rem;">
+            <span style="font-size: 0.75rem; color: var(--color-text-muted);">Duration: 24 Mins</span>
+            <h3 style="font-size: 1.1rem; margin-top: 0.35rem;">Optimizing Grid Arbitrage with EMS Core AI</h3>
+          </div>
+        </div>
+
+        <!-- Video 3 -->
+        <div class="glass-card" style="padding:0; overflow:hidden;">
+          <div style="height: 180px; background-image: linear-gradient(rgba(7,9,14,0.3), rgba(7,9,14,0.6)), url('assets/hero-slider-4.webp'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; position: relative;">
+            <button class="play-btn" data-video="Liquid-Cooled Thermal Battery Management Webinars" style="width: 4rem; height: 4rem; background: #eab308; color: white; border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; cursor: pointer; box-shadow: 0 0 20px rgba(234,179,8,0.25); transition: 0.3s;"><i class="fas fa-play" style="margin-left: 0.25rem;"></i></button>
+          </div>
+          <div style="padding: 1.5rem;">
+            <span style="font-size: 0.75rem; color: var(--color-text-muted);">Duration: 15 Mins</span>
+            <h3 style="font-size: 1.1rem; margin-top: 0.35rem;">Liquid-Cooled Thermal Battery Systems</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: Newsletter Sign Up CTA -->
+  <section id="newsletter" style="background: var(--color-navy-dark);" class="fade-up">
+    <div class="container">
+      <div class="glass-card" style="padding: 3.5rem 3rem; border-radius: var(--border-radius-lg); text-align: center; max-width: 800px; margin: 0 auto; border: 1px solid rgba(16, 185, 129, 0.15);">
+        <h2 style="font-size: 1.85rem; margin-bottom: 0.75rem;">Get Resource & Regulatory Updates</h2>
+        <p style="color: var(--color-text-secondary); margin-bottom: 2rem; font-size: 0.95rem;">Receive monthly notifications on regional tariff changes, regulatory grids rulings, and technical release notes.</p>
+        
+        <form id="newsletter-form" style="display: flex; gap: 0.75rem; max-width: 500px; margin: 0 auto; flex-wrap: wrap;">
+          <input type="email" id="newsletter-email" placeholder="name@gmail.com" style="background: var(--color-navy-light); border: 1px solid var(--color-border); border-radius: 9999px; color: white; padding: 0.75rem 1.5rem; flex-grow: 1; outline: none; font-size: 0.95rem; min-width: 240px;" required>
+          <button type="submit" class="btn btn-primary" style="padding: 0.75rem 2rem; min-width: 150px; width: auto;">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <!-- Col 1 -->
+        <div class="footer-col footer-logo-desc">
+          <a href="index.html" class="logo">
+            <img src="assets/logo stk.webp" alt="Stackly Logo" style="height: 38px; width: auto; object-fit: contain;">
+          </a>
+          <p>Next-generation, premium renewable energy storage platforms designed for grid stability, microgrids, and peak shaving applications globally.</p>
+          <div class="social-links">
+            <a href="404.html" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="404.html" class="social-icon" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="404.html" class="social-icon" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="404.html" class="social-icon" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <!-- Col 2 -->
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="solutions.html">Our Solutions</a></li>
+            <li><a href="resources.html">Resources Hub</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        <!-- Col 3 -->
+        <div class="footer-col">
+          <h4>Solutions</h4>
+          <ul class="footer-links">
+            <li><a href="404.html">Grid Storage (BESS)</a></li>
+            <li><a href="404.html">C&I Peak Shaving</a></li>
+            <li><a href="404.html">Smart EMS software</a></li>
+            <li><a href="404.html">Microgrid Systems</a></li>
+          </ul>
+        </div>
+        <!-- Col 4 -->
+        <div class="footer-col">
+          <h4>Stackly Details</h4>
+          <ul class="contact-details-list">
+            <li><i class="fas fa-map-marker-alt"></i> 1200 Center St NE, Salem, OR 97301</li>
+            <li><i class="fas fa-phone-alt"></i> +1 (503) 555-0199</li>
+            <li><i class="fas fa-envelope"></i> engineering@stackly.com</li>
+          </ul>
+          <!-- Google Map Salem OR Embed -->
+          <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d45199.1678129775!2d-123.03698064999999!3d44.942914149999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x54bfc10128cf7e85%3A0x6b772c676f2d2b5d!2sSalem%2C%20OR!5e0!3m2!1sen!2sus!4v1782736000000!5m2!1sen!2sus" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Stackly Energy Inc. All Rights Reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="javascript:void(0)">Privacy Policy</a>
+          <a href="javascript:void(0)">Terms of Use</a>
+          <a href="javascript:void(0)">Security Audit</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CDNs for animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  
+  <!-- Custom scripts -->
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Search & Filter Resource Catalog
+      const searchInput = document.getElementById('resource-search');
+      const filterBtns = document.querySelectorAll('.resource-filter-btn');
+      const resourceItems = document.querySelectorAll('.resource-item');
+
+      const filterResources = () => {
+        const query = searchInput.value.toLowerCase();
+        const activeFilter = document.querySelector('.resource-filter-btn.active').getAttribute('data-filter');
+
+        resourceItems.forEach(item => {
+          const title = item.querySelector('h3').textContent.toLowerCase();
+          const desc = item.querySelector('p').textContent.toLowerCase();
+          const category = item.getAttribute('data-category');
+
+          const matchesQuery = title.includes(query) || desc.includes(query);
+          const matchesFilter = activeFilter === 'all' || category === activeFilter;
+
+          if (matchesQuery && matchesFilter) {
+            item.style.display = 'block';
+            gsap.fromTo(item, { opacity: 0, scale: 0.98 }, { opacity: 1, scale: 1, duration: 0.3 });
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      };
+
+      searchInput.addEventListener('input', filterResources);
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          filterResources();
+        });
+      });
+
+      // 2. Download simulation
+      const triggerDownload = (docName) => {
+        // Disabled simulation toast popup per user request
+      };
+
+      document.querySelectorAll('.download-btn, .download-link').forEach(el => {
+        el.addEventListener('click', (e) => {
+          e.preventDefault();
+          const doc = el.getAttribute('data-doc');
+          triggerDownload(doc);
+        });
+      });
+
+      // 3. Play video simulation
+      document.querySelectorAll('.play-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const videoTitle = btn.getAttribute('data-video');
+          // Disabled simulation toast popup per user request
+        });
+      });
+
+      // 4. Newsletter Form submission with gmail validation
+      const newsletterForm = document.getElementById('newsletter-form');
+      if (newsletterForm) {
+        newsletterForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const email = document.getElementById('newsletter-email').value.trim();
+          
+          const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+          if (!gmailRegex.test(email)) {
+            if (window.showToast) {
+              window.showToast('Subscription failed: Only @gmail.com email addresses are accepted.', 'error');
+            }
+            return;
+          }
+
+          window.location.href = '404.html';
+        });
+      }
+    });
+  </script>
+</body>
+</html>

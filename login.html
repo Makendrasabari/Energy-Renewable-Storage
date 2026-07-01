@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stackly Console - Secure Authorization</title>
+  <meta name="description" content="Secure portal for Energy Administrators and Analysts to access Stackly EMS Core monitors.">
+  
+  <!-- Fonts & Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  
+  <style>
+    /* Fullscreen centering login custom styles */
+    .login-body {
+      background-image: linear-gradient(rgba(7, 9, 14, 0.8), rgba(7, 9, 14, 0.95)), url('assets/hero-slider-5.webp');
+      background-size: cover;
+      background-position: center;
+      min-height: 100vh;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-y: auto;
+      padding: 1.5rem 1rem;
+      box-sizing: border-box;
+    }
+    
+    .login-container {
+      width: 100%;
+      max-width: 440px;
+      margin: auto;
+    }
+
+    .login-card {
+      padding: 2.25rem 2rem;
+      border-radius: var(--border-radius-lg);
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+    }
+
+    .form-group input,
+    .form-group select {
+      background: var(--color-navy-light);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-sm);
+      color: var(--color-text-primary);
+      padding: 0.8rem 1rem;
+      font-size: 0.95rem;
+      outline: none;
+      transition: var(--transition-fast);
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+    }
+    
+    .form-group.has-error input {
+      border-color: #ef4444 !important;
+      box-shadow: 0 0 8px rgba(239, 68, 68, 0.25) !important;
+    }
+    
+    .error-message {
+      color: #ef4444;
+      font-size: 0.8rem;
+      margin-top: 0.25rem;
+      display: none;
+    }
+    
+    .form-group.has-error .error-message {
+      display: block;
+    }
+
+    .login-logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    .login-logo .logo {
+      font-size: 1.85rem;
+    }
+  </style>
+</head>
+<body class="login-body">
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <div class="login-container">
+    <div class="glass-card login-card">
+      <div class="login-logo">
+        <a href="index.html" class="logo">
+          <img src="assets/logo stk.webp" alt="Stackly Logo" style="height: 38px; width: auto; object-fit: contain;">
+        </a>
+      </div>
+      
+      <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem; text-align: center; font-family: var(--font-heading);">Console Portal</h2>
+      <p style="color: var(--color-text-secondary); font-size: 0.85rem; text-align: center; margin-bottom: 1.25rem;">Authorize to access monitoring metrics.</p>
+
+      <form id="login-form" novalidate>
+        <!-- Role Selection -->
+        <div class="form-group">
+          <label for="login-role">Console Security Role</label>
+          <select id="login-role">
+            <option value="admin">Energy Administrator</option>
+            <option value="analyst">Energy Analyst</option>
+          </select>
+        </div>
+
+        <!-- Email input -->
+        <div class="form-group" id="email-group">
+          <label for="login-email">Gmail Address</label>
+          <input type="email" id="login-email" placeholder="name@gmail.com">
+          <div class="error-message" id="email-error">Please enter a valid @gmail.com address.</div>
+        </div>
+
+        <!-- Password input -->
+        <div class="form-group" id="password-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" placeholder="••••••••">
+          <div class="error-message" id="password-error">Password cannot be empty.</div>
+        </div>
+
+        <!-- Remember Me + Forgot Password row -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.75rem; margin-bottom: 0.25rem;">
+          <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: var(--color-text-secondary); cursor: pointer; user-select: none;">
+            <input type="checkbox" id="remember-me" style="accent-color: var(--color-primary); width: 15px; height: 15px; cursor: pointer;">
+            Remember me
+          </label>
+          <a href="404.html" style="font-size: 0.82rem; color: var(--color-primary); text-decoration: none; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">Forgot Password?</a>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem; padding: 0.85rem;">Authorize Console <i class="fas fa-sign-in-alt"></i></button>
+
+        <!-- Create an Account -->
+        <div style="text-align: center; margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--color-border);">
+          <span style="font-size: 0.82rem; color: var(--color-text-muted);">Don't have an account?</span>
+          <a href="signup.html" style="font-size: 0.82rem; color: var(--color-primary); font-weight: 600; margin-left: 0.4rem; text-decoration: none; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">Create an Account</a>
+        </div>
+      </form>
+      
+      <div style="margin-top: 1.5rem; text-align: center;">
+        <a href="index.html" style="font-size: 0.85rem; color: var(--color-text-muted);"><i class="fas fa-arrow-left" style="margin-right: 0.25rem;"></i> Back to Home</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- CDNs for animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <!-- Global main JS for toast helper -->
+  <script src="js/main.js"></script>
+  
+  <script>
+    // Add input event listeners to clear error styles on type
+    document.getElementById('login-email').addEventListener('input', () => {
+      document.getElementById('email-group').classList.remove('has-error');
+    });
+    
+    document.getElementById('login-password').addEventListener('input', () => {
+      document.getElementById('password-group').classList.remove('has-error');
+    });
+
+    // Custom login logic
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const role = document.getElementById('login-role').value;
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+
+      // Reset errors
+      document.getElementById('email-group').classList.remove('has-error');
+      document.getElementById('password-group').classList.remove('has-error');
+
+      let isValid = true;
+
+      // 1. Email format check (must end with @gmail.com)
+      const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+      if (!gmailRegex.test(email)) {
+        document.getElementById('email-group').classList.add('has-error');
+        isValid = false;
+      }
+
+      // 2. Password validation (non-empty)
+      if (!password) {
+        document.getElementById('password-group').classList.add('has-error');
+        isValid = false;
+      }
+
+      if (!isValid) {
+        return;
+      }
+
+      // 3. Successful redirection based on selected role
+      const storedName = localStorage.getItem('registeredName_' + email) || (role === 'admin' ? 'Energy Administrator' : 'Energy Analyst');
+      localStorage.setItem('loggedInUserEmail', email);
+      localStorage.setItem('loggedInUserName', storedName);
+
+      if (role === 'admin') {
+        window.location.href = 'dashboard-admin.html';
+      } else if (role === 'analyst') {
+        window.location.href = 'dashboard-analyst.html';
+      }
+    });
+  </script>
+</body>
+</html>

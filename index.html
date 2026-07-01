@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stackly - Smart Renewable Energy Storage Solutions</title>
+  <meta name="description" content="Stackly provides premium, high-efficiency grid-scale and industrial battery storage systems to power the clean energy transition.">
+  
+  <!-- Fonts & Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  
+  <!-- Preload Testimonial Avatars for Smooth Transitions -->
+  <link rel="preload" href="assets/testimonial-1.webp" as="image" type="image/webp">
+  <link rel="preload" href="assets/testimonial-2.webp" as="image" type="image/webp">
+  <link rel="preload" href="assets/testimonial-3.webp" as="image" type="image/webp">
+  <link rel="preload" href="assets/testimonial-4.webp" as="image" type="image/webp">
+  <link rel="preload" href="assets/testimonial-5.webp" as="image" type="image/webp">
+</head>
+<body class="home-page">
+  <!-- Preloader Screen -->
+  <div id="preloader" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: #07090e; z-index: 99999; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease, visibility 0.5s ease;">
+    <div class="preloader-content" style="display: flex; flex-direction: column; align-items: center; gap: 1.5rem;">
+      <div class="preloader-letters" style="display: flex; gap: 0rem; font-family: var(--font-heading); font-size: 2.5rem; font-weight: 800; letter-spacing: 0px; color: white; transition: gap 0.8s cubic-bezier(0.25, 1, 0.5, 1);">
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(30px);">S</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(15px);">T</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(0px);">A</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(-15px);">C</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(-30px);">K</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(-45px); color: var(--color-primary);">L</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(-60px); color: var(--color-primary);">Y</span>
+      </div>
+      <div style="width: 120px; height: 2px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; position: relative;">
+        <div id="preloader-bar" style="position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, var(--color-primary), transparent); animation: loading-bar 1.5s infinite ease-in-out;"></div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    @keyframes loading-bar {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+  </style>
+
+  <script>
+    (function() {
+      const preloader = document.getElementById('preloader');
+      const lettersContainer = document.querySelector('.preloader-letters');
+      const letters = document.querySelectorAll('.p-letter');
+      
+      setTimeout(() => {
+        if (lettersContainer) lettersContainer.style.gap = '1.25rem';
+        letters.forEach(letter => {
+          letter.style.opacity = '1';
+          letter.style.transform = 'translateX(0)';
+        });
+      }, 100);
+
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          if (preloader) {
+            preloader.style.opacity = '0';
+            preloader.style.visibility = 'hidden';
+            setTimeout(() => preloader.remove(), 500);
+          }
+        }, 1200);
+      });
+    })();
+  </script>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Sticky Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <img src="assets/logo stk.webp" alt="Stackly Logo" style="height: 38px; width: auto; object-fit: contain;">
+      </a>
+      
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="solutions.html">Solutions</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="nav-cta-mobile" style="display: none;"><a href="login.html" class="btn btn-primary" style="color: white; width: 100%; text-align: center;">Login</a></li>
+      </ul>
+
+      <div class="nav-cta">
+        <a href="login.html" class="btn btn-primary" style="color: white;">Login</a>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Section 1: Hero Background Slider -->
+  <section class="hero-section" id="hero" style="padding: 0; height: 100vh; display: flex; align-items: center; overflow: hidden; position: relative; background-color: #07090e;">
+    <div class="hero-slider-bg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;">
+      <!-- Slide 1 -->
+      <div class="hero-slide active" style="background-image: linear-gradient(rgba(7, 9, 14, 0.35), rgba(7, 9, 14, 0.55)), url('assets/hero-slider-1.webp'); background-size: cover; background-position: center; position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 1s ease-in-out;"></div>
+      <!-- Slide 2 -->
+      <div class="hero-slide" style="background-image: linear-gradient(rgba(7, 9, 14, 0.35), rgba(7, 9, 14, 0.55)), url('assets/hero-slider-2.webp'); background-size: cover; background-position: center; position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 1s ease-in-out;"></div>
+      <!-- Slide 3 -->
+      <div class="hero-slide" style="background-image: linear-gradient(rgba(7, 9, 14, 0.35), rgba(7, 9, 14, 0.55)), url('assets/hero-slider-3.webp'); background-size: cover; background-position: center; position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 1s ease-in-out;"></div>
+      <!-- Slide 4 -->
+      <div class="hero-slide" style="background-image: linear-gradient(rgba(7, 9, 14, 0.35), rgba(7, 9, 14, 0.55)), url('assets/hero-slider-4.webp'); background-size: cover; background-position: center; position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 1s ease-in-out;"></div>
+      <!-- Slide 5 -->
+      <div class="hero-slide" style="background-image: linear-gradient(rgba(7, 9, 14, 0.35), rgba(7, 9, 14, 0.55)), url('assets/hero-slider-5.webp'); background-size: cover; background-position: center; position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 1s ease-in-out;"></div>
+    </div>
+    
+    <!-- Constant Hero Content Overlay -->
+    <div class="container" style="position: relative; z-index: 2; width: 100%; display: flex; align-items: center; pointer-events: none;">
+      <div class="hero-content" style="max-width: 750px; pointer-events: auto;">
+        <span class="hero-tag section-tag">Next-Gen Storage</span>
+        <h1 class="hero-title" style="margin: 1rem 0; color: white;">Empowering the Clean Energy Revolution</h1>
+        <p class="hero-subtitle" style="color: rgba(255, 255, 255, 0.7); margin-bottom: 2.5rem;">Stackly engineers high-capacity, grid-scale battery systems that store solar and wind energy for 24/7 reliability.</p>
+        <div class="hero-buttons" style="display: flex; gap: 1.5rem;">
+          <a href="404.html" class="btn btn-primary">Our Solutions <i class="fas fa-arrow-right"></i></a>
+          <a href="404.html" class="btn btn-outline" style="color: white; border-color: rgba(255,255,255,0.35);">Consult Our Engineers</a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slider Navigation Buttons -->
+    <div style="position: absolute; bottom: 3rem; right: 2rem; z-index: 10; display: flex; gap: 1rem;">
+      <button class="hero-prev" aria-label="Previous Slide" style="background: rgba(255,255,255,0.05); border: 1px solid var(--color-border); color: white; width: 3.5rem; height: 3.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s;"><i class="fas fa-chevron-left"></i></button>
+      <button class="hero-next" aria-label="Next Slide" style="background: rgba(255,255,255,0.05); border: 1px solid var(--color-border); color: white; width: 3.5rem; height: 3.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s;"><i class="fas fa-chevron-right"></i></button>
+    </div>
+
+    <!-- Slider Dots indicator -->
+    <div style="position: absolute; bottom: 4.5rem; left: 2rem; z-index: 10; display: flex; gap: 0.5rem;">
+      <span class="hero-dot active" style="width: 2.5rem; height: 4px; background: var(--color-primary); border-radius: 2px; cursor: pointer; transition: 0.3s;"></span>
+      <span class="hero-dot" style="width: 1.25rem; height: 4px; background: rgba(255,255,255,0.3); border-radius: 2px; cursor: pointer; transition: 0.3s;"></span>
+      <span class="hero-dot" style="width: 1.25rem; height: 4px; background: rgba(255,255,255,0.3); border-radius: 2px; cursor: pointer; transition: 0.3s;"></span>
+      <span class="hero-dot" style="width: 1.25rem; height: 4px; background: rgba(255,255,255,0.3); border-radius: 2px; cursor: pointer; transition: 0.3s;"></span>
+      <span class="hero-dot" style="width: 1.25rem; height: 4px; background: rgba(255,255,255,0.3); border-radius: 2px; cursor: pointer; transition: 0.3s;"></span>
+    </div>
+  </section>
+
+  <!-- Section 2: Company Statistics -->
+  <section class="stats-section" id="stats" style="background: var(--color-navy-dark); border-bottom: 1px solid var(--color-border); padding: 2.5rem 0; overflow: hidden;">
+    <div class="ticker-wrap">
+      <div class="ticker-inner">
+        <div class="ticker stagger-cards">
+          <!-- Set 1 -->
+          <div class="glass-card stats-card-wrapper" style="text-align: center; padding: 2rem; position: relative; overflow: hidden; background-image: linear-gradient(rgba(11, 15, 25, 0.82), rgba(11, 15, 25, 0.92)), url('assets/stat-capacity.webp'); background-size: cover; background-position: center; border: 1px solid var(--color-border); z-index: 1;">
+            <div style="font-size: 2.5rem; color: var(--color-primary); margin-bottom: 0.5rem; position: relative; z-index: 2;"><i class="fas fa-bolt"></i></div>
+            <h3 class="stat-number" data-target="5.4" data-suffix=" GW" data-decimals="1" style="position: relative; z-index: 2;">0</h3>
+            <p style="color: var(--color-primary); font-size: 0.9rem; position: relative; z-index: 2; font-weight: 500;">Total Active Capacity</p>
+          </div>
+          <div class="glass-card stats-card-wrapper" style="text-align: center; padding: 2rem; position: relative; overflow: hidden; background-image: linear-gradient(rgba(11, 15, 25, 0.82), rgba(11, 15, 25, 0.92)), url('assets/stat-co2.webp'); background-size: cover; background-position: center; border: 1px solid var(--color-border); z-index: 1;">
+            <div style="font-size: 2.5rem; color: var(--color-secondary); margin-bottom: 0.5rem; position: relative; z-index: 2;"><i class="fas fa-leaf"></i></div>
+            <h3 class="stat-number" data-target="12.8" data-suffix="M Tons" data-decimals="1" style="position: relative; z-index: 2;">0</h3>
+            <p style="color: var(--color-primary); font-size: 0.9rem; position: relative; z-index: 2; font-weight: 500;">CO2 Offset Annually</p>
+          </div>
+          <div class="glass-card stats-card-wrapper" style="text-align: center; padding: 2rem; position: relative; overflow: hidden; background-image: linear-gradient(rgba(11, 15, 25, 0.82), rgba(11, 15, 25, 0.92)), url('assets/stat-projects.webp'); background-size: cover; background-position: center; border: 1px solid var(--color-border); z-index: 1;">
+            <div style="font-size: 2.5rem; color: #eab308; margin-bottom: 0.5rem; position: relative; z-index: 2;"><i class="fas fa-project-diagram"></i></div>
+            <h3 class="stat-number" data-target="148" data-suffix="" data-decimals="0" style="position: relative; z-index: 2;">0</h3>
+            <p style="color: var(--color-primary); font-size: 0.9rem; position: relative; z-index: 2; font-weight: 500;">Commissioned Projects</p>
+          </div>
+          <div class="glass-card stats-card-wrapper" style="text-align: center; padding: 2rem; position: relative; overflow: hidden; background-image: linear-gradient(rgba(11, 15, 25, 0.82), rgba(11, 15, 25, 0.92)), url('assets/stat-globe.webp'); background-size: cover; background-position: center; border: 1px solid var(--color-border); z-index: 1;">
+            <div style="font-size: 2.5rem; color: #ef4444; margin-bottom: 0.5rem; position: relative; z-index: 2;"><i class="fas fa-globe"></i></div>
+            <h3 class="stat-number" data-target="22" data-suffix="" data-decimals="0" style="position: relative; z-index: 2;">0</h3>
+            <p style="color: var(--color-primary); font-size: 0.9rem; position: relative; z-index: 2; font-weight: 500;">Countries Reached</p>
+          </div>
+          <!-- Set 2 (Duplicate for seamless loop) -->
+          <div class="glass-card stats-card-wrapper" style="text-align: center; padding: 2rem; position: relative; overflow: hidden; background-image: linear-gradient(rgba(11, 15, 25, 0.82), rgba(11, 15, 25, 0.92)), url('assets/stat-capacity.webp'); background-size: cover; background-position: center; border: 1px solid var(--color-border); z-index: 1;">
+            <div style="font-size: 2.5rem; color: var(--color-primary); margin-bottom: 0.5rem; position: relative; z-index: 2;"><i class="fas fa-bolt"></i></div>
+            <h3 class="stat-number" data-target="5.4" data-suffix=" GW" data-decimals="1" style="position: relative; z-index: 2;">0</h3>
+            <p style="color: var(--color-primary); font-size: 0.9rem; position: relative; z-index: 2; font-weight: 500;">Total Active Capacity</p>
+          </div>
+          <div class="glass-card stats-card-wrapper" style="text-align: center; padding: 2rem; position: relative; overflow: hidden; background-image: linear-gradient(rgba(11, 15, 25, 0.82), rgba(11, 15, 25, 0.92)), url('assets/stat-co2.webp'); background-size: cover; background-position: center; border: 1px solid var(--color-border); z-index: 1;">
+            <div style="font-size: 2.5rem; color: var(--color-secondary); margin-bottom: 0.5rem; position: relative; z-index: 2;"><i class="fas fa-leaf"></i></div>
+            <h3 class="stat-number" data-target="12.8" data-suffix="M Tons" data-decimals="1" style="position: relative; z-index: 2;">0</h3>
+            <p style="color: var(--color-primary); font-size: 0.9rem; position: relative; z-index: 2; font-weight: 500;">CO2 Offset Annually</p>
+          </div>
+          <div class="glass-card stats-card-wrapper" style="text-align: center; padding: 2rem; position: relative; overflow: hidden; background-image: linear-gradient(rgba(11, 15, 25, 0.82), rgba(11, 15, 25, 0.92)), url('assets/stat-projects.webp'); background-size: cover; background-position: center; border: 1px solid var(--color-border); z-index: 1;">
+            <div style="font-size: 2.5rem; color: #eab308; margin-bottom: 0.5rem; position: relative; z-index: 2;"><i class="fas fa-project-diagram"></i></div>
+            <h3 class="stat-number" data-target="148" data-suffix="" data-decimals="0" style="position: relative; z-index: 2;">0</h3>
+            <p style="color: var(--color-primary); font-size: 0.9rem; position: relative; z-index: 2; font-weight: 500;">Commissioned Projects</p>
+          </div>
+          <div class="glass-card stats-card-wrapper" style="text-align: center; padding: 2rem; position: relative; overflow: hidden; background-image: linear-gradient(rgba(11, 15, 25, 0.82), rgba(11, 15, 25, 0.92)), url('assets/stat-globe.webp'); background-size: cover; background-position: center; border: 1px solid var(--color-border); z-index: 1;">
+            <div style="font-size: 2.5rem; color: #ef4444; margin-bottom: 0.5rem; position: relative; z-index: 2;"><i class="fas fa-globe"></i></div>
+            <h3 class="stat-number" data-target="22" data-suffix="" data-decimals="0" style="position: relative; z-index: 2;">0</h3>
+            <p style="color: var(--color-primary); font-size: 0.9rem; position: relative; z-index: 2; font-weight: 500;">Countries Reached</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Renewable Energy Solutions -->
+  <section id="solutions-intro" class="fade-up">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-tag">Energy Services</span>
+        <h2 class="section-title">Clean Grid-Interactive Solutions</h2>
+        <p class="section-desc">We combine premium chemical storage cells with intelligent EMS algorithms to solve grid instability and peaking constraints.</p>
+      </div>
+
+      <div class="solutions-grid stagger-cards">
+        <div class="glass-card">
+          <div class="card-bg-img" style="background-image: url('assets/sol-solar.webp');"></div>
+          <div class="card-hover-content">
+            <div class="icon-glow-container" style="width: 3.5rem; height: 3.5rem; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--color-primary);"><i class="fas fa-sun"></i></div>
+            <h3 style="margin-top: 1rem; margin-bottom: 0;">Solar Integration</h3>
+            <div class="card-hover-details">
+              <p style="color: var(--color-text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem;">Buffer solar intermittency and transition daytime overproduction into critical peak evening loads.</p>
+              <a href="solutions.html" style="font-weight: 600; color: var(--color-primary);">Learn More <i class="fas fa-arrow-right" style="font-size: 0.8rem; margin-left: 0.25rem;"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="glass-card">
+          <div class="card-bg-img" style="background-image: url('assets/sol-wind.webp');"></div>
+          <div class="card-hover-content">
+            <div class="icon-glow-container" style="width: 3.5rem; height: 3.5rem; background: rgba(59, 130, 246, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--color-secondary);"><i class="fas fa-wind"></i></div>
+            <h3 style="margin-top: 1rem; margin-bottom: 0;">Wind Power Buffering</h3>
+            <div class="card-hover-details">
+              <p style="color: var(--color-text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem;">Smooth out sudden wind capacity drops and guarantee a stable base power profile for distribution networks.</p>
+              <a href="solutions.html" style="font-weight: 600; color: var(--color-secondary);">Learn More <i class="fas fa-arrow-right" style="font-size: 0.8rem; margin-left: 0.25rem;"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="glass-card">
+          <div class="card-bg-img" style="background-image: url('assets/sol-peak.webp');"></div>
+          <div class="card-hover-content">
+            <div class="icon-glow-container" style="width: 3.5rem; height: 3.5rem; background: rgba(234, 179, 8, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #eab308;"><i class="fas fa-industry"></i></div>
+            <h3 style="margin-top: 1rem; margin-bottom: 0;">Commercial Peak Shaving</h3>
+            <div class="card-hover-details">
+              <p style="color: var(--color-text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem;">Drastically reduce commercial electricity tariffs by drawing power from BESS during peak pricing spikes.</p>
+              <a href="solutions.html" style="font-weight: 600; color: #eab308;">Learn More <i class="fas fa-arrow-right" style="font-size: 0.8rem; margin-left: 0.25rem;"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Why Choose Us -->
+  <section id="why-choose-us" style="background: var(--color-navy-dark);" class="fade-up">
+    <div class="container">
+      <div class="why-choose-grid">
+        <div>
+          <span class="section-tag">Value Proposition</span>
+          <h2 class="section-title">Built for Performance and Long-term Safety</h2>
+          <p style="color: var(--color-text-secondary); margin-bottom: 2rem;">Stackly doesn't just sell storage hardware. We supply an integrated system combining premium LFP batteries with liquid-cooled thermal systems and AI management systems.</p>
+          
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 1.5rem;">
+            <li style="display: flex; gap: 1rem; align-items: flex-start;">
+              <div style="width: 2rem; height: 2rem; background: rgba(16, 185, 129, 0.1); color: var(--color-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="fas fa-check"></i></div>
+              <div>
+                <h4 style="font-size: 1.1rem; margin-bottom: 0.25rem;">92% Round-Trip Efficiency</h4>
+                <p style="color: var(--color-text-secondary); font-size: 0.9rem;">Ultra-low resistance cell configurations limit energy loss during charge cycles.</p>
+              </div>
+            </li>
+            <li style="display: flex; gap: 1rem; align-items: flex-start;">
+              <div style="width: 2rem; height: 2rem; background: rgba(16, 185, 129, 0.1); color: var(--color-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="fas fa-check"></i></div>
+              <div>
+                <h4 style="font-size: 1.1rem; margin-bottom: 0.25rem;">Liquid Thermal Management</h4>
+                <p style="color: var(--color-text-secondary); font-size: 0.9rem;">Active cooling maintains cell temperatures between 20°C to 28°C to maximize lifespan.</p>
+              </div>
+            </li>
+            <li style="display: flex; gap: 1rem; align-items: flex-start;">
+              <div style="width: 2rem; height: 2rem; background: rgba(16, 185, 129, 0.1); color: var(--color-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="fas fa-check"></i></div>
+              <div>
+                <h4 style="font-size: 1.1rem; margin-bottom: 0.25rem;">20-Year Operational Lifetime</h4>
+                <p style="color: var(--color-text-secondary); font-size: 0.9rem;">Premium chemical grades ensure minimal fade across 8,000 deep discharge cycles.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+        
+        <div style="position: relative; display: flex; justify-content: center; align-items: center;">
+          <div style="width: 100%; height: 350px; background-image: linear-gradient(to right, rgba(11,15,25,0.2), rgba(11,15,25,0.7)), url('assets/hero-slider-3.webp'); background-size: cover; background-position: center; border-radius: var(--border-radius-md); border: 1px solid var(--color-border); overflow: hidden; display: flex; align-items: flex-end; padding: 2rem;">
+            <div class="glass" style="padding: 1.25rem; border-radius: var(--border-radius-sm); border: 1px solid var(--color-border); display: flex; gap: 1rem; width: 100%;">
+              <div style="font-size: 2rem; color: var(--color-primary);"><i class="fas fa-shield-alt"></i></div>
+              <div>
+                <h4 style="font-size: 0.95rem;">NFPA 855 Fire Compliance</h4>
+                <p style="color: var(--color-text-secondary); font-size: 0.8rem; margin-top: 0.15rem;">Advanced aerosol fire suppression system integrated in each module.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: Energy Storage Technologies -->
+  <section id="technologies" class="fade-up">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-tag">Core Technology</span>
+        <h2 class="section-title">Engineered Chemical Configurations</h2>
+        <p class="section-desc">Different grids demand different chemistries. Stackly provides customized technology solutions tailored for varying durations.</p>
+      </div>
+
+      <div class="tech-tabs">
+        <button class="btn btn-outline tech-tab-btn active" data-target="tech-lfp">Lithium Iron Phosphate (LFP)</button>
+        <button class="btn btn-outline tech-tab-btn" data-target="tech-flow">Redox Flow Battery</button>
+        <button class="btn btn-outline tech-tab-btn" data-target="tech-flywheel">Flywheel Storage</button>
+      </div>
+
+      <div class="tech-grid-content">
+        <!-- LFP content -->
+        <div class="glass-card tech-detail-card active" id="tech-lfp" style="width: 100%;">
+          <div class="tech-detail-card-grid">
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+              <div>
+                <span style="font-size: 0.75rem; background: rgba(16, 185, 129, 0.1); color: var(--color-primary); padding: 0.35rem 0.75rem; border-radius: 4px; font-weight: 700;">HIGH POWER / MID DURATION</span>
+                <h3 style="font-size: 1.75rem; margin-top: 0.75rem; margin-bottom: 1rem;">LFP Containerized Storage</h3>
+                <p style="color: var(--color-text-secondary); font-size: 0.95rem;">Perfect for peak shaving, voltage support, frequency regulation, and short-duration microgrids. Our systems deliver maximum response speed and modular scalability.</p>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; border-top: 1px solid var(--color-border); padding-top: 1.5rem;">
+                <div>
+                  <span style="font-size: 0.8rem; color: var(--color-text-muted);">Optimal Discharge</span>
+                  <p style="font-weight: 600; font-size: 1.1rem; color: var(--color-text-primary);">2 to 6 Hours</p>
+                </div>
+                <div>
+                  <span style="font-size: 0.8rem; color: var(--color-text-muted);">Cycle Life</span>
+                  <p style="font-weight: 600; font-size: 1.1rem; color: var(--color-text-primary);">8,000 Cycles @ 80% DoD</p>
+                </div>
+              </div>
+            </div>
+            <div class="tech-detail-image-wrapper">
+              <img src="assets/hero-slider-3.webp" alt="LFP Container Battery Pack">
+            </div>
+          </div>
+        </div>
+        
+        <!-- Flow Content -->
+        <div class="glass-card tech-detail-card" id="tech-flow" style="width: 100%;">
+          <div class="tech-detail-card-grid">
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+              <div>
+                <span style="font-size: 0.75rem; background: rgba(59, 130, 246, 0.1); color: var(--color-secondary); padding: 0.35rem 0.75rem; border-radius: 4px; font-weight: 700;">LONG DURATION STORAGE</span>
+                <h3 style="font-size: 1.75rem; margin-top: 0.75rem; margin-bottom: 1rem;">Vanadium Redox Flow Batteries</h3>
+                <p style="color: var(--color-text-secondary); font-size: 0.95rem;">Designed for long-duration bulk storage applications. Power and capacity scale independently by expanding the electrolyte storage tank volume, avoiding degradation issues.</p>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; border-top: 1px solid var(--color-border); padding-top: 1.5rem;">
+                <div>
+                  <span style="font-size: 0.8rem; color: var(--color-text-muted);">Optimal Discharge</span>
+                  <p style="font-weight: 600; font-size: 1.1rem; color: var(--color-text-primary);">8 to 24 Hours</p>
+                </div>
+                <div>
+                  <span style="font-size: 0.8rem; color: var(--color-text-muted);">Cycle Life</span>
+                  <p style="font-weight: 600; font-size: 1.1rem; color: var(--color-text-primary);">Unlimited (Zero Degradation)</p>
+                </div>
+              </div>
+            </div>
+            <div class="tech-detail-image-wrapper">
+              <img src="assets/hero-slider-2.webp" alt="Vanadium Redox Flow Battery Substation">
+            </div>
+          </div>
+        </div>
+
+        <!-- Flywheel Content -->
+        <div class="glass-card tech-detail-card" id="tech-flywheel" style="width: 100%;">
+          <div class="tech-detail-card-grid">
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+              <div>
+                <span style="font-size: 0.75rem; background: rgba(234, 179, 8, 0.1); color: #eab308; padding: 0.35rem 0.75rem; border-radius: 4px; font-weight: 700;">FAST TRANSIENT RESPONSE</span>
+                <h3 style="font-size: 1.75rem; margin-top: 0.75rem; margin-bottom: 1rem;">Flywheel Energy Systems</h3>
+                <p style="color: var(--color-text-secondary); font-size: 0.95rem;">Delivers high power levels within milliseconds for critical industrial facilities, stabilizing voltage sags and providing transitional backup power while diesel/inverters start.</p>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; border-top: 1px solid var(--color-border); padding-top: 1.5rem;">
+                <div>
+                  <span style="font-size: 0.8rem; color: var(--color-text-muted);">Optimal Discharge</span>
+                  <p style="font-weight: 600; font-size: 1.1rem; color: var(--color-text-primary);">15 Seconds to 5 Mins</p>
+                </div>
+                <div>
+                  <span style="font-size: 0.8rem; color: var(--color-text-muted);">Cycle Life</span>
+                  <p style="font-weight: 600; font-size: 1.1rem; color: var(--color-text-primary);">1,000,000+ Cycles</p>
+                </div>
+              </div>
+            </div>
+            <div class="tech-detail-image-wrapper">
+              <img src="assets/hero-slider-1.webp" alt="High speed Flywheel Energy Core">
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <div class="tech-static-card">
+            <div class="tech-static-bg" style="background-image: url('assets/powercube_pro.png');"></div>
+            <div class="tech-static-overlay">
+              <h4 style="font-size: 1.2rem; color: white; margin-bottom: 0.25rem;">Stackly PowerCube Pro</h4>
+              <p style="color: var(--color-text-secondary); font-size: 0.85rem;">Containerized lithium-ion grid-support system.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 6: Featured Projects -->
+  <section id="projects" style="background: var(--color-navy-dark);" class="fade-up">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-tag">Case Studies</span>
+        <h2 class="section-title">Stunning Global Projects</h2>
+        <p class="section-desc">Discover how we help utilities, businesses, and grids transition to dependable renewable power.</p>
+      </div>
+
+      <div class="projects-grid stagger-cards">
+        <!-- Project 1 -->
+        <div class="glass-card" style="padding: 0; overflow: hidden;">
+          <div class="glass-card-img-zoom">
+            <img src="assets/hero-slider-1.webp" alt="Mojave Solar-Plus-Storage">
+          </div>
+          <div style="padding: 2rem;">
+            <span style="color: var(--color-primary); font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Nevada, USA</span>
+            <h3 style="font-size: 1.25rem; margin-top: 0.5rem; margin-bottom: 1rem;">Mojave Solar-Plus-Storage</h3>
+            <p style="color: var(--color-text-secondary); font-size: 0.85rem; margin-bottom: 1.5rem;">A massive 250MW / 1000MWh containerized facility balancing desert solar outputs for night grid stability.</p>
+            <div style="display: flex; justify-content: space-between; border-top: 1px solid var(--color-border); padding-top: 1rem; font-size: 0.85rem;">
+              <span><strong>Capacity:</strong> 1,000 MWh</span>
+              <span style="color: var(--color-primary);"><i class="fas fa-check-circle"></i> Active</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Project 2 -->
+        <div class="glass-card" style="padding: 0; overflow: hidden;">
+          <div class="glass-card-img-zoom">
+            <img src="assets/hero-slider-2.webp" alt="Dogger Bank Offshore Buffer">
+          </div>
+          <div style="padding: 2rem;">
+            <span style="color: var(--color-secondary); font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">North Sea, UK</span>
+            <h3 style="font-size: 1.25rem; margin-top: 0.5rem; margin-bottom: 1rem;">Dogger Bank Offshore Buffer</h3>
+            <p style="color: var(--color-text-secondary); font-size: 0.85rem; margin-bottom: 1.5rem;">Integrating 80MW flow battery banks to smooth out off-shore wind velocity drops and protect transmission hubs.</p>
+            <div style="display: flex; justify-content: space-between; border-top: 1px solid var(--color-border); padding-top: 1rem; font-size: 0.85rem;">
+              <span><strong>Capacity:</strong> 320 MWh</span>
+              <span style="color: var(--color-secondary);"><i class="fas fa-check-circle"></i> Commissioning</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="glass-card" style="padding: 0; overflow: hidden;">
+          <div class="glass-card-img-zoom">
+            <img src="assets/hero-slider-4.webp" alt="BMW Factory Microgrid">
+          </div>
+          <div style="padding: 2rem;">
+            <span style="color: #eab308; font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Munich, Germany</span>
+            <h3 style="font-size: 1.25rem; margin-top: 0.5rem; margin-bottom: 1rem;">BMW Factory Microgrid</h3>
+            <p style="color: var(--color-text-secondary); font-size: 0.85rem; margin-bottom: 1.5rem;">A commercial peak-shaving microgrid providing backup safety parameters and reducing plant energy cost indexes.</p>
+            <div style="display: flex; justify-content: space-between; border-top: 1px solid var(--color-border); padding-top: 1rem; font-size: 0.85rem;">
+              <span><strong>Capacity:</strong> 45 MWh</span>
+              <span style="color: #eab308;"><i class="fas fa-check-circle"></i> Active</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 7: Sustainability Impact Calculator -->
+  <section id="sustainability" class="fade-up">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-tag">Interactive Metrics</span>
+        <h2 class="section-title">Calculate Your Ecological Impact</h2>
+        <p class="section-desc">Adjust the system dimensions below to calculate Carbon Offsets and utility tariff reduction estimations.</p>
+      </div>
+
+      <div class="calc-grid">
+        <div class="glass-card" style="display: flex; flex-direction: column; gap: 2rem;">
+          <div class="range-control">
+            <div class="range-label-wrapper">
+              <label for="calc-size">System Power Size (kW)</label>
+              <span id="calc-size-val" style="font-weight: 700; color: var(--color-primary);">250 kW</span>
+            </div>
+            <input type="range" id="calc-size" class="range-slider" min="50" max="2500" step="50" value="250">
+          </div>
+          
+          <div class="range-control">
+            <div class="range-label-wrapper">
+              <label for="calc-duration">Storage Discharge Duration (Hours)</label>
+              <span id="calc-duration-val" style="font-weight: 700; color: var(--color-secondary);">4 hrs (1,000 kWh)</span>
+            </div>
+            <input type="range" id="calc-duration" class="range-slider" min="2" max="10" step="1" value="4">
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; border-top: 1px solid var(--color-border); padding-top: 1.5rem; text-align: center;">
+            <div>
+              <span style="font-size: 0.75rem; color: var(--color-text-muted);">CO2 Offset / Yr</span>
+              <p id="metric-co2" style="font-size: 1.35rem; font-weight: 700; color: var(--color-primary); margin-top: 0.25rem;">171</p>
+              <span style="font-size: 0.7rem; color: var(--color-text-muted);">Tons</span>
+            </div>
+            <div>
+              <span style="font-size: 0.75rem; color: var(--color-text-muted);">Est. Bill Savings</span>
+              <p id="metric-savings" style="font-size: 1.35rem; font-weight: 700; color: var(--color-text-primary); margin-top: 0.25rem;">$204,400</p>
+              <span style="font-size: 0.7rem; color: var(--color-text-muted);">/ Year</span>
+            </div>
+            <div>
+              <span style="font-size: 0.75rem; color: var(--color-text-muted);">Homes Powered</span>
+              <p id="metric-homes" style="font-size: 1.35rem; font-weight: 700; color: var(--color-secondary); margin-top: 0.25rem;">95</p>
+              <span style="font-size: 0.7rem; color: var(--color-text-muted);">Equiv.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card" style="height: 320px; display: flex; flex-direction: column; justify-content: center; position: relative;">
+          <h4 style="font-size: 1rem; margin-bottom: 1rem; text-align: center; color: var(--color-text-secondary);">Energy Grid Offset Yield Breakdown</h4>
+          <div class="chart-wrapper">
+            <canvas id="impactChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 8: Testimonials -->
+  <section id="testimonials" style="background: var(--color-navy-dark);" class="fade-up">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-tag">Client Feedback</span>
+        <h2 class="section-title">Valued Partner Testimonials</h2>
+        <p class="section-desc">What grid administrators and commercial operators say about deploying Stackly BESS systems.</p>
+      </div>
+
+      <div class="testimonial-wrapper">
+        <div class="testimonial-track">
+          <!-- Slide 1 -->
+          <div class="testimonial-slide">
+            <div class="glass-card" style="text-align: center; max-width: 650px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; padding: 2.5rem 2rem;">
+              <img src="assets/testimonial-1.webp" alt="Marcus Vance" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 1.25rem; border: 2px solid var(--color-primary); box-shadow: var(--shadow-md);">
+              <div style="font-size: 1.25rem; color: #eab308; margin-bottom: 1.25rem;">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              </div>
+              <p style="font-size: 1.1rem; font-style: italic; color: var(--color-text-primary); margin-bottom: 1.25rem; line-height: 1.5;">"Integrating Stackly containerized LFP packs with our Nevada solar facility has completely solved our evening ramp-up constraints. Their EMS algorithms are bulletproof."</p>
+              <h4 style="font-size: 1.1rem; color: var(--color-primary); margin-bottom: 0.25rem;">Marcus Vance</h4>
+              <p style="font-size: 0.8rem; color: var(--color-text-secondary);">Director of Grid Infrastructure, Apex Clean Utility</p>
+            </div>
+          </div>
+          <!-- Slide 2 -->
+          <div class="testimonial-slide">
+            <div class="glass-card" style="text-align: center; max-width: 650px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; padding: 2.5rem 2rem;">
+              <img src="assets/testimonial-2.webp" alt="Elena Rostova" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 1.25rem; border: 2px solid var(--color-secondary); box-shadow: var(--shadow-md);">
+              <div style="font-size: 1.25rem; color: #eab308; margin-bottom: 1.25rem;">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              </div>
+              <p style="font-size: 1.1rem; font-style: italic; color: var(--color-text-primary); margin-bottom: 1.25rem; line-height: 1.5;">"The peak shaving capability of the Stackly BESS system has reduced our factory energy charges by over 32% annually. The setup paid for itself in under 3 years."</p>
+              <h4 style="font-size: 1.1rem; color: var(--color-secondary); margin-bottom: 0.25rem;">Elena Rostova</h4>
+              <p style="font-size: 0.8rem; color: var(--color-text-secondary);">Chief Sustainability Officer, Velo Heavy Industry</p>
+            </div>
+          </div>
+          <!-- Slide 3 -->
+          <div class="testimonial-slide">
+            <div class="glass-card" style="text-align: center; max-width: 650px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; padding: 2.5rem 2rem;">
+              <img src="assets/testimonial-3.webp" alt="Dr. Alan Chen" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 1.25rem; border: 2px solid var(--color-primary); box-shadow: var(--shadow-md);">
+              <div style="font-size: 1.25rem; color: #eab308; margin-bottom: 1.25rem;">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              </div>
+              <p style="font-size: 1.1rem; font-style: italic; color: var(--color-text-primary); margin-bottom: 1.25rem; line-height: 1.5;">"Stackly's modular approach allowed us to deploy utility-scale storage in record time. The system's thermal management has proved robust even under extreme temperature fluctuations."</p>
+              <h4 style="font-size: 1.1rem; color: var(--color-primary); margin-bottom: 0.25rem;">Dr. Alan Chen</h4>
+              <p style="font-size: 0.8rem; color: var(--color-text-secondary);">Microgrid Operations Lead, Pacific Energy Lab</p>
+            </div>
+          </div>
+          <!-- Slide 4 -->
+          <div class="testimonial-slide">
+            <div class="glass-card" style="text-align: center; max-width: 650px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; padding: 2.5rem 2rem;">
+              <img src="assets/testimonial-4.webp" alt="Sarah Jenkins" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 1.25rem; border: 2px solid var(--color-secondary); box-shadow: var(--shadow-md);">
+              <div style="font-size: 1.25rem; color: #eab308; margin-bottom: 1.25rem;">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              </div>
+              <p style="font-size: 1.1rem; font-style: italic; color: var(--color-text-primary); margin-bottom: 1.25rem; line-height: 1.5;">"We use Stackly storage to smooth out wind power intermittency before it feeds into the regional grid. The high cycle life and low capacity degradation are extremely impressive."</p>
+              <h4 style="font-size: 1.1rem; color: var(--color-secondary); margin-bottom: 0.25rem;">Sarah Jenkins</h4>
+              <p style="font-size: 0.8rem; color: var(--color-text-secondary);">VP of Power Supply, Northwest Wind Partners</p>
+            </div>
+          </div>
+          <!-- Slide 5 -->
+          <div class="testimonial-slide">
+            <div class="glass-card" style="text-align: center; max-width: 650px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; padding: 2.5rem 2rem;">
+              <img src="assets/testimonial-5.webp" alt="Ahmed Al-Mansoor" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 1.25rem; border: 2px solid var(--color-primary); box-shadow: var(--shadow-md);">
+              <div style="font-size: 1.25rem; color: #eab308; margin-bottom: 1.25rem;">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              </div>
+              <p style="font-size: 1.1rem; font-style: italic; color: var(--color-text-primary); margin-bottom: 1.25rem; line-height: 1.5;">"Stackly's EMS integrates perfectly with our virtual power plant network. Their real-time telemetry and API integrations made deployment simple and cost-effective."</p>
+              <h4 style="font-size: 1.1rem; color: var(--color-primary); margin-bottom: 0.25rem;">Ahmed Al-Mansoor</h4>
+              <p style="font-size: 0.8rem; color: var(--color-text-secondary);">Smart City Infrastructure Advisor, Neom Dev Authority</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div style="display: none; justify-content: center; gap: 1rem; margin-top: 2rem;">
+          <button class="testimonial-prev" aria-label="Previous Testimonial" style="background: rgba(255,255,255,0.05); border: 1px solid var(--color-border); color: white; width: 3rem; height: 3rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s;"><i class="fas fa-arrow-left"></i></button>
+          <button class="testimonial-next" aria-label="Next Testimonial" style="background: rgba(255,255,255,0.05); border: 1px solid var(--color-border); color: white; width: 3rem; height: 3rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s;"><i class="fas fa-arrow-right"></i></button>
+        </div>
+
+        <!-- Pagination Dots -->
+        <div class="testimonial-dots" style="display: none; justify-content: center; gap: 0.5rem; margin-top: 1.5rem;">
+          <span class="testimonial-dot active" data-index="0" aria-label="Go to Slide 1"></span>
+          <span class="testimonial-dot" data-index="1" aria-label="Go to Slide 2"></span>
+          <span class="testimonial-dot" data-index="2" aria-label="Go to Slide 3"></span>
+          <span class="testimonial-dot" data-index="3" aria-label="Go to Slide 4"></span>
+          <span class="testimonial-dot" data-index="4" aria-label="Go to Slide 5"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 9: Call To Action (Form and Banner) -->
+  <section id="cta" class="fade-up">
+    <div class="container">
+      <div class="glass-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(59, 130, 246, 0.05) 100%); border: 1px solid rgba(16, 185, 129, 0.2); padding: 4rem 3rem; text-align: center; border-radius: var(--border-radius-lg);">
+        <h2 class="section-title" style="margin-bottom: 1.5rem;">Ready to Transition Your Grid?</h2>
+        <p style="max-width: 700px; margin: 0 auto 3rem auto; color: var(--color-text-secondary); font-size: 1.15rem;">Connect with a Stackly application engineer today to request a custom sizing analysis and project quote tailored to your local grid constraints.</p>
+        <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
+          <a href="404.html" class="btn btn-primary">Submit RFP Details <i class="fas fa-paper-plane"></i></a>
+          <a href="404.html" class="btn btn-outline">Check Systems Catalog</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <!-- Col 1 -->
+        <div class="footer-col footer-logo-desc">
+          <a href="index.html" class="logo">
+            <img src="assets/logo stk.webp" alt="Stackly Logo" style="height: 38px; width: auto; object-fit: contain;">
+          </a>
+          <p>Next-generation, premium renewable energy storage platforms designed for grid stability, microgrids, and peak shaving applications globally.</p>
+          <div class="social-links">
+            <a href="404.html" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="404.html" class="social-icon" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="404.html" class="social-icon" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="404.html" class="social-icon" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <!-- Col 2 -->
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="solutions.html">Our Solutions</a></li>
+            <li><a href="resources.html">Resources Hub</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        <!-- Col 3 -->
+        <div class="footer-col">
+          <h4>Solutions</h4>
+          <ul class="footer-links">
+            <li><a href="404.html">Grid Storage (BESS)</a></li>
+            <li><a href="404.html">C&I Peak Shaving</a></li>
+            <li><a href="404.html">Smart EMS software</a></li>
+            <li><a href="404.html">Microgrid Systems</a></li>
+          </ul>
+        </div>
+        <!-- Col 4 -->
+        <div class="footer-col">
+          <h4>Stackly Details</h4>
+          <ul class="contact-details-list">
+            <li><i class="fas fa-map-marker-alt"></i> 1200 Center St NE, Salem, OR 97301</li>
+            <li><i class="fas fa-phone-alt"></i> +1 (503) 555-0199</li>
+            <li><i class="fas fa-envelope"></i> engineering@stackly.com</li>
+          </ul>
+          <!-- Google Map Salem OR Embed -->
+          <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d45199.1678129775!2d-123.03698064999999!3d44.942914149999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x54bfc10128cf7e85%3A0x6b772c676f2d2b5d!2sSalem%2C%20OR!5e0!3m2!1sen!2sus!4v1782736000000!5m2!1sen!2sus" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Stackly Energy Inc. All Rights Reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="javascript:void(0)">Privacy Policy</a>
+          <a href="javascript:void(0)">Terms of Use</a>
+          <a href="javascript:void(0)">Security Audit</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CDNs for animations & Charts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Custom scripts -->
+  <script src="js/main.js"></script>
+</body>
+</html>

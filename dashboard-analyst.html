@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stackly Analyst Console - Market Analytics</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body class="dashboard-body analyst-theme">
+  <!-- Preloader Screen -->
+  <div id="preloader" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: #07090e; z-index: 99999; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease, visibility 0.5s ease;">
+    <div class="preloader-content" style="display: flex; flex-direction: column; align-items: center; gap: 1.5rem;">
+      <div class="preloader-letters" style="display: flex; gap: 0rem; font-family: var(--font-heading); font-size: 2.5rem; font-weight: 800; letter-spacing: 0px; color: white; transition: gap 0.8s cubic-bezier(0.25, 1, 0.5, 1);">
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(30px);">S</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(15px);">T</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(0px);">A</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(-15px);">C</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(-30px);">K</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(-45px); color: var(--color-primary);">L</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(-60px); color: var(--color-primary);">Y</span>
+      </div>
+      <div style="width: 120px; height: 2px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; position: relative;">
+        <div id="preloader-bar" style="position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, var(--color-primary), transparent); animation: loading-bar 1.5s infinite ease-in-out;"></div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    @keyframes loading-bar {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+  </style>
+
+  <script>
+    (function() {
+      const preloader = document.getElementById('preloader');
+      const lettersContainer = document.querySelector('.preloader-letters');
+      const letters = document.querySelectorAll('.p-letter');
+      
+      setTimeout(() => {
+        if (lettersContainer) lettersContainer.style.gap = '1.25rem';
+        letters.forEach(letter => {
+          letter.style.opacity = '1';
+          letter.style.transform = 'translateX(0)';
+        });
+      }, 100);
+
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          if (preloader) {
+            preloader.style.opacity = '0';
+            preloader.style.visibility = 'hidden';
+            setTimeout(() => preloader.remove(), 500);
+          }
+        }, 1200);
+      });
+    })();
+  </script>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div>
+          <a href="dashboard-analyst.html" class="logo">
+            <img src="assets/logo stk.webp" alt="Stackly Logo" style="height: 38px; width: auto; object-fit: contain;">
+          </a>
+          <span class="sidebar-role-badge role-analyst">Energy Analyst</span>
+        </div>
+        <button class="sidebar-close-btn" id="sidebar-close" style="display: none;"><i class="fas fa-times" style="color: white; font-size: 1.25rem;"></i></button>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="sidebar-item active" data-target="analyst-analytics">
+          <a href="#"><i class="fas fa-chart-line"></i> Live Analytics</a>
+        </li>
+        <li class="sidebar-item" data-target="analyst-market">
+          <a href="#"><i class="fas fa-dollar-sign"></i> Market Intel</a>
+        </li>
+        <li class="sidebar-item" data-target="analyst-forecast">
+          <a href="#"><i class="fas fa-brain"></i> Load Forecast</a>
+        </li>
+        <li class="sidebar-item" data-target="analyst-esg">
+          <a href="#"><i class="fas fa-globe-americas"></i> ESG Reporting</a>
+        </li>
+        <li class="sidebar-item" data-target="analyst-export">
+          <a href="#"><i class="fas fa-file-export"></i> Data Exporter</a>
+        </li>
+        <li class="sidebar-logout" style="margin-top: 1.5rem; border-top: 1px solid var(--color-border); padding-top: 1rem;">
+          <a href="login.html"><i class="fas fa-sign-out-alt"></i> Exit Console</a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Topbar -->
+      <header class="topbar">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <button class="sidebar-toggle-btn" id="sidebar-toggle" style="display: none; border: none; background: transparent; cursor: pointer; color: var(--color-text-primary); font-size: 1.25rem;"><i class="fas fa-bars"></i></button>
+          <div class="topbar-title">
+            <h2 id="current-panel-title">Live Analytics</h2>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <div class="live-indicator" style="color: var(--color-secondary); background: rgba(59, 130, 246, 0.08); border-color: rgba(59, 130, 246, 0.2);">
+            <span class="live-indicator-dot" style="background: var(--color-secondary);"></span>
+            <span>ANALYTICS ONLINE</span>
+          </div>
+          <div class="user-profile" id="user-profile-trigger" style="position: relative; cursor: pointer;">
+            <div class="user-avatar" id="avatar-display" style="background: var(--color-secondary-hover);">Y</div>
+            <div class="user-info">
+              <span class="user-name" id="name-display">Energy Analyst</span>
+              <span class="user-role" id="email-display">analyst@gmail.com</span>
+            </div>
+            
+            <!-- Dropdown Menu -->
+            <div class="glass-card profile-dropdown" id="profile-dropdown" style="display: none; position: absolute; top: calc(100% + 10px); right: 0; min-width: 220px; padding: 1rem; z-index: 1000; border-radius: var(--border-radius-sm); border: 1px solid var(--color-border); box-shadow: var(--shadow-lg);">
+              <div style="text-align: left;">
+                <div style="font-weight: 700; color: var(--color-text-primary); font-size: 0.95rem;" id="dropdown-name">Energy Analyst</div>
+                <div style="color: var(--color-text-muted); font-size: 0.8rem;" id="dropdown-email">analyst@gmail.com</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Panel 1: Live Analytics -->
+      <div id="analyst-analytics" class="dashboard-content-panel active">
+        <!-- 1. Live KPI cards -->
+        <div class="dashboard-grid-4">
+          <div class="dashboard-card card-theme-blue">
+            <div class="card-header">
+              <span class="card-title">Round-Trip Efficiency</span>
+              <div class="card-icon"><i class="fas fa-percentage"></i></div>
+            </div>
+            <div class="card-value">92.4%</div>
+            <div class="card-footer-info trend-up">
+              <i class="fas fa-chevron-up"></i> <span>Optimal Cell Load</span>
+            </div>
+          </div>
+          <div class="dashboard-card card-theme-green">
+            <div class="card-header">
+              <span class="card-title">Arbitrage Yield</span>
+              <div class="card-icon"><i class="fas fa-coins"></i></div>
+            </div>
+            <div class="card-value" id="live-yield">$48,240</div>
+            <div class="card-footer-info trend-up">
+              <i class="fas fa-arrow-up"></i> <span>+$310/hr peak</span>
+            </div>
+          </div>
+          <div class="dashboard-card card-theme-yellow">
+            <div class="card-header">
+              <span class="card-title">Active Solar Feed</span>
+              <div class="card-icon"><i class="fas fa-sun"></i></div>
+            </div>
+            <div class="card-value" id="live-solar">842 kW</div>
+            <div class="card-footer-info trend-neutral">
+              <span>Standard irradiance</span>
+            </div>
+          </div>
+          <div class="dashboard-card card-theme-blue">
+            <div class="card-header">
+              <span class="card-title">Net Carbon Saved</span>
+              <div class="card-icon"><i class="fas fa-leaf"></i></div>
+            </div>
+            <div class="card-value">1,248 T</div>
+            <div class="card-footer-info trend-up">
+              <i class="fas fa-plus"></i> <span>14 Tons today</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-grid-2-1">
+          <!-- 2. Generation vs Consumption Chart -->
+          <div class="dashboard-panel">
+            <div class="panel-header">
+              <h3 class="panel-title">System Yield vs Grid Load (kW)</h3>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="generationChart"></canvas>
+            </div>
+          </div>
+
+          <!-- 3. Mix Pie Chart -->
+          <div class="dashboard-panel">
+            <div class="panel-header">
+              <h3 class="panel-title">Energy Feed Mix</h3>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="mixChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Daily Generation Log Table -->
+        <div class="dashboard-panel">
+          <div class="panel-header">
+            <h3 class="panel-title">Hourly Battery Dispatch Performance Logs</h3>
+          </div>
+          <div class="dashboard-table-wrapper">
+            <table class="dashboard-table">
+              <thead>
+                <tr>
+                  <th>Hour Interval</th>
+                  <th>Source Load</th>
+                  <th>Inverter Feed</th>
+                  <th>Battery SOC Spread</th>
+                  <th>RTE %</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>17:00 - 18:00</td>
+                  <td>Solar Generation</td>
+                  <td>1.2 MW</td>
+                  <td>78% -> 84%</td>
+                  <td>92.8%</td>
+                </tr>
+                <tr>
+                  <td>16:00 - 17:00</td>
+                  <td>Wind Power</td>
+                  <td>850 kW</td>
+                  <td>74% -> 78%</td>
+                  <td>92.1%</td>
+                </tr>
+                <tr>
+                  <td>15:00 - 16:00</td>
+                  <td>Grid Charging</td>
+                  <td>2.1 MW</td>
+                  <td>62% -> 74%</td>
+                  <td>91.8%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 2: Market Intelligence -->
+      <div id="analyst-market" class="dashboard-content-panel">
+        <!-- 1. Current Price arbitrage stats -->
+        <div class="dashboard-grid-4">
+          <div class="dashboard-card card-theme-yellow">
+            <div class="card-header">
+              <span class="card-title">Peak Grid Price</span>
+              <div class="card-icon"><i class="fas fa-dollar-sign"></i></div>
+            </div>
+            <div class="card-value">$284 / MWh</div>
+            <div class="card-footer-info trend-up"><span>On Peak Period</span></div>
+          </div>
+          <div class="dashboard-card card-theme-green">
+            <div class="card-header">
+              <span class="card-title">Off-Peak Grid Price</span>
+              <div class="card-icon"><i class="fas fa-dollar-sign"></i></div>
+            </div>
+            <div class="card-value">$42 / MWh</div>
+            <div class="card-footer-info trend-down"><span>Off Peak Period</span></div>
+          </div>
+          <div class="dashboard-card card-theme-blue">
+            <div class="card-header">
+              <span class="card-title">Arbitrage Net Margin</span>
+              <div class="card-icon"><i class="fas fa-percentage"></i></div>
+            </div>
+            <div class="card-value" id="market-margin">85.2%</div>
+            <div class="card-footer-info trend-up"><span>High Arbitrage window</span></div>
+          </div>
+        </div>
+
+        <div class="dashboard-grid-2-1">
+          <!-- 2. Pricing Spread Chart -->
+          <div class="dashboard-panel">
+            <div class="panel-header">
+              <h3 class="panel-title">Diurnal Grid Price Spread ($/MWh)</h3>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="marketSpreadChart"></canvas>
+            </div>
+          </div>
+
+          <!-- 3. Sizing Estimator widget -->
+          <div class="dashboard-panel">
+            <div class="panel-header">
+              <h3 class="panel-title">Arbitrage Yield Estimator</h3>
+            </div>
+            <div class="interactive-panel">
+              <div class="form-group-flex">
+                <label>Storage Size (MWh)</label>
+                <input type="number" value="10" id="arb-size">
+              </div>
+              <div class="form-group-flex">
+                <label>Estimated Price Spread ($/MWh)</label>
+                <input type="number" value="180" id="arb-spread">
+              </div>
+              <div style="margin-top: 1rem; border-top: 1px solid var(--color-border); padding-top: 1rem; font-size: 0.95rem;">
+                <span>Est. Profit / Cycle:</span>
+                <strong id="arb-est-profit" style="color:var(--color-primary); float:right;">$1,620</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Regulatory compliance warnings index -->
+        <div class="dashboard-panel">
+          <div class="panel-header">
+            <h3 class="panel-title">Market Regulation Notifications</h3>
+          </div>
+          <div class="dashboard-table-wrapper">
+            <table class="dashboard-table">
+              <thead>
+                <tr>
+                  <th>Compliance Code</th>
+                  <th>Authority</th>
+                  <th>Status</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>ISO-NE Rule 24</td>
+                  <td>FERC</td>
+                  <td><span class="status-badge status-online">Compliant</span></td>
+                  <td>BESS capacity discharge validation successfully completed. Ready for auction.</td>
+                </tr>
+                <tr>
+                  <td>Standard PRC-024</td>
+                  <td>NERC</td>
+                  <td><span class="status-badge status-online">Compliant</span></td>
+                  <td>Voltage ride-through parameters within standard boundaries.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 3: Load Forecast -->
+      <div id="analyst-forecast" class="dashboard-content-panel">
+        <!-- 1. Demand Peak stats -->
+        <div class="dashboard-grid-4">
+          <div class="dashboard-card card-theme-red">
+            <div class="card-header">
+              <span class="card-title">Forecasted Peak Demand</span>
+              <div class="card-icon"><i class="fas fa-exclamation-triangle"></i></div>
+            </div>
+            <div class="card-value">4.82 MW</div>
+            <div class="card-footer-info trend-up"><span>Expected at 19:00</span></div>
+          </div>
+          <div class="dashboard-card card-theme-green">
+            <div class="card-header">
+              <span class="card-title">Current Safety Buffer</span>
+              <div class="card-icon"><i class="fas fa-shield-alt"></i></div>
+            </div>
+            <div class="card-value">2.40 MW</div>
+            <div class="card-footer-info trend-neutral"><span>Sufficient Reserve</span></div>
+          </div>
+        </div>
+
+        <div class="dashboard-grid-2-1">
+          <!-- 2. Predictive load curve chart -->
+          <div class="dashboard-panel">
+            <div class="panel-header">
+              <h3 class="panel-title">Expected vs Actual Load Demand Curve</h3>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="forecastChart"></canvas>
+            </div>
+          </div>
+
+          <!-- 3. Weather correlation adjustments -->
+          <div class="dashboard-panel">
+            <div class="panel-header">
+              <h3 class="panel-title">ML Weather Parameters</h3>
+            </div>
+            <div class="interactive-panel">
+              <div class="form-group-flex">
+                <label>Expected High Temp (°F)</label>
+                <select id="weather-temp">
+                  <option value="normal">Normal Summer (78°F - 85°F)</option>
+                  <option value="heatwave">Heatwave Warning (95°F+)</option>
+                  <option value="cold">Cool Breeze (65°F - 72°F)</option>
+                </select>
+              </div>
+              <div class="form-group-flex">
+                <label>Air Humidity Factor</label>
+                <select id="weather-humidity">
+                  <option value="normal">Moderate Humidity (45%)</option>
+                  <option value="high">High Humidity (80% / HVAC load)</option>
+                </select>
+              </div>
+              <button class="btn btn-primary" id="btn-recalc-forecast" style="margin-top: 1rem;">Update Forecast Model</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Capacity reserve metrics -->
+        <div class="dashboard-panel">
+          <div class="panel-header">
+            <h3 class="panel-title">Battery Reserve Requirements</h3>
+          </div>
+          <div class="dashboard-table-wrapper">
+            <table class="dashboard-table">
+              <thead>
+                <tr>
+                  <th>Battery Bank Group</th>
+                  <th>Total SOC</th>
+                  <th>Reserved Capacity (MWh)</th>
+                  <th>Discharge Priority</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Utility Pack A-B</td>
+                  <td>83.2%</td>
+                  <td>2.5 MWh</td>
+                  <td><span class="status-badge status-online">Priority 1</span></td>
+                </tr>
+                <tr>
+                  <td>Auxiliary Pack C-D</td>
+                  <td>76.0%</td>
+                  <td>1.8 MWh</td>
+                  <td><span class="status-badge status-warning">Priority 2</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 4: ESG Sustainability Reporting -->
+      <div id="analyst-esg" class="dashboard-content-panel">
+        <div class="dashboard-grid-2-1">
+          <!-- 1. Carbon Savings scorecard -->
+          <div class="dashboard-panel">
+            <div class="panel-header">
+              <h3 class="panel-title">Equivalent Carbon Reduction Metrics</h3>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; padding: 1.5rem 0; text-align: center;">
+              <div>
+                <span style="font-size: 2.5rem; color: var(--color-primary);"><i class="fas fa-tree"></i></span>
+                <h4 style="font-size: 1.5rem; margin-top: 0.5rem; font-family: var(--font-heading);">84,400</h4>
+                <p style="color: var(--color-text-secondary); font-size: 0.8rem;">Trees Planted Equiv.</p>
+              </div>
+              <div>
+                <span style="font-size: 2.5rem; color: var(--color-secondary);"><i class="fas fa-car-side"></i></span>
+                <h4 style="font-size: 1.5rem; margin-top: 0.5rem; font-family: var(--font-heading);">2,810</h4>
+                <p style="color: var(--color-text-secondary); font-size: 0.8rem;">Cars Removed / Year</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. ESG score card -->
+          <div class="dashboard-panel">
+            <div class="panel-header">
+              <h3 class="panel-title">Facility ESG Rating</h3>
+            </div>
+            <div style="text-align: center; padding: 1rem 0;">
+              <div style="font-size: 3.5rem; font-weight: 800; color: var(--color-primary); font-family: var(--font-heading);">AA+</div>
+              <p style="color: var(--color-text-secondary); margin-top: 0.5rem;">Global Clean Grid Sustainability Score</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Yearly Offset Chart -->
+        <div class="dashboard-panel" style="margin-bottom: 2rem;">
+          <div class="panel-header">
+            <h3 class="panel-title">Monthly CO2 Savings Score (Tons)</h3>
+          </div>
+          <div class="chart-wrapper">
+            <canvas id="esgChart"></canvas>
+          </div>
+        </div>
+
+        <!-- 4. Sustainability report generator fields -->
+        <div class="dashboard-panel">
+          <div class="panel-header">
+            <h3 class="panel-title">Generate CSR/Environmental Report</h3>
+          </div>
+          <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem; font-size: 0.9rem;">Export structured compliance documentation detailing clean generation offsets.</p>
+          <button class="btn btn-secondary" id="btn-export-esg" style="align-self: flex-start;">Generate CSR Report <i class="fas fa-leaf"></i></button>
+        </div>
+      </div>
+
+      <!-- Panel 5: Data Exporter Console -->
+      <div id="analyst-export" class="dashboard-content-panel">
+        <div class="dashboard-grid-1-1">
+          <!-- 1. Query builder inputs -->
+          <div class="dashboard-panel">
+            <div class="panel-header">
+              <h3 class="panel-title">System Exporter Configuration</h3>
+            </div>
+            <div class="interactive-panel">
+              <div class="form-group-flex">
+                <label>Data Stream Dataset</label>
+                <select id="export-dataset">
+                  <option value="telemetry">Power Telemetry (Volts/Amps)</option>
+                  <option value="arbitrage">Financial Arbitrage Logs</option>
+                  <option value="soh">Thermal & Degradation Records</option>
+                </select>
+              </div>
+              <div class="form-group-flex">
+                <label>File Format Type</label>
+                <select id="export-format">
+                  <option value="csv">Comma Separated Values (.csv)</option>
+                  <option value="json">JavaScript Object Notation (.json)</option>
+                </select>
+              </div>
+              <button class="btn btn-primary" id="btn-execute-export" style="margin-top: 1rem;">Export Data Stream <i class="fas fa-download"></i></button>
+            </div>
+          </div>
+
+          <!-- 3. API credentials management -->
+          <div class="dashboard-panel">
+            <div class="panel-header">
+              <h3 class="panel-title">Developer API Gateways</h3>
+            </div>
+            <div class="interactive-panel">
+              <div class="form-group-flex">
+                <label>Production Gateway URL</label>
+                <input type="text" value="https://api.stackly.com/v1/telemetry" readonly style="background:var(--color-navy-dark); color:var(--color-text-muted);">
+              </div>
+              <div class="form-group-flex">
+                <label>EMS Access Token Key</label>
+                <div style="display:flex; gap:0.5rem;">
+                  <input type="password" value="sk_live_9942a8b093f481c002bd48" readonly id="api-key-field" style="background:var(--color-navy-dark); color:var(--color-text-muted); flex-grow:1;">
+                  <button class="btn btn-outline" id="btn-reveal-key" style="padding: 0.5rem 1rem;"><i class="fas fa-eye"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. CSV Data preview table -->
+        <div class="dashboard-panel">
+          <div class="panel-header">
+            <h3 class="panel-title">Historical telemetry Data Stream Preview</h3>
+          </div>
+          <div class="dashboard-table-wrapper">
+            <table class="dashboard-table">
+              <thead>
+                <tr>
+                  <th>Log Index</th>
+                  <th>Interval Timestamp</th>
+                  <th>Frequency Standard</th>
+                  <th>RTE Load Balance</th>
+                  <th>Bus Voltage</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>#LOG-0142</td>
+                  <td>2026-06-29T17:50:00Z</td>
+                  <td>60.021 Hz</td>
+                  <td>0.9242</td>
+                  <td>482.1 V</td>
+                </tr>
+                <tr>
+                  <td>#LOG-0141</td>
+                  <td>2026-06-29T17:40:00Z</td>
+                  <td>60.019 Hz</td>
+                  <td>0.9248</td>
+                  <td>481.9 V</td>
+                </tr>
+                <tr>
+                  <td>#LOG-0140</td>
+                  <td>2026-06-29T17:30:00Z</td>
+                  <td>60.023 Hz</td>
+                  <td>0.9239</td>
+                  <td>482.4 V</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- CDNs for animations & Charts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Custom Dashboard Script -->
+  <script src="js/dashboard-analyst.js"></script>
+</body>
+</html>

@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stackly Admin Console - System Operations</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body class="dashboard-body">
+  <!-- Preloader Screen -->
+  <div id="preloader" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: #07090e; z-index: 99999; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease, visibility 0.5s ease;">
+    <div class="preloader-content" style="display: flex; flex-direction: column; align-items: center; gap: 1.5rem;">
+      <div class="preloader-letters" style="display: flex; gap: 0rem; font-family: var(--font-heading); font-size: 2.5rem; font-weight: 800; letter-spacing: 0px; color: white; transition: gap 0.8s cubic-bezier(0.25, 1, 0.5, 1);">
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(30px);">S</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(15px);">T</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(0px);">A</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(-15px);">C</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(-30px);">K</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(-45px); color: var(--color-primary);">L</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(-60px); color: var(--color-primary);">Y</span>
+      </div>
+      <div style="width: 120px; height: 2px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; position: relative;">
+        <div id="preloader-bar" style="position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, var(--color-primary), transparent); animation: loading-bar 1.5s infinite ease-in-out;"></div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    @keyframes loading-bar {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+  </style>
+
+  <script>
+    (function() {
+      const preloader = document.getElementById('preloader');
+      const lettersContainer = document.querySelector('.preloader-letters');
+      const letters = document.querySelectorAll('.p-letter');
+      
+      setTimeout(() => {
+        if (lettersContainer) lettersContainer.style.gap = '1.25rem';
+        letters.forEach(letter => {
+          letter.style.opacity = '1';
+          letter.style.transform = 'translateX(0)';
+        });
+      }, 100);
+
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          if (preloader) {
+            preloader.style.opacity = '0';
+            preloader.style.visibility = 'hidden';
+            setTimeout(() => preloader.remove(), 500);
+          }
+        }, 1200);
+      });
+    })();
+  </script>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div>
+          <a href="dashboard-admin.html" class="logo">
+            <img src="assets/logo stk.webp" alt="Stackly Logo" style="height: 38px; width: auto; object-fit: contain;">
+          </a>
+          <span class="sidebar-role-badge role-admin">Energy Administrator</span>
+        </div>
+        <button class="sidebar-close-btn" id="sidebar-close" style="display: none;"><i class="fas fa-times" style="color: white; font-size: 1.25rem;"></i></button>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="sidebar-item active" data-target="admin-overview">
+          <a href="#"><i class="fas fa-desktop"></i> Overview & Control</a>
+        </li>
+        <li class="sidebar-item" data-target="admin-storage">
+          <a href="#"><i class="fas fa-battery-three-quarters"></i> Storage Cells</a>
+        </li>
+        <li class="sidebar-item" data-target="admin-logs">
+          <a href="#"><i class="fas fa-user-shield"></i> Access Logs</a>
+        </li>
+        <li class="sidebar-item" data-target="admin-config">
+          <a href="#"><i class="fas fa-sliders-h"></i> System Settings</a>
+        </li>
+        <li class="sidebar-item" data-target="admin-audit">
+          <a href="#"><i class="fas fa-clipboard-list"></i> Audit Reports</a>
+        </li>
+        <li class="sidebar-logout" style="margin-top: 1.5rem; border-top: 1px solid var(--color-border); padding-top: 1rem;">
+          <a href="login.html"><i class="fas fa-sign-out-alt"></i> Exit Console</a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Topbar -->
+      <header class="topbar">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <button class="sidebar-toggle-btn" id="sidebar-toggle" style="display: none; border: none; background: transparent; cursor: pointer; color: var(--color-text-primary); font-size: 1.25rem;"><i class="fas fa-bars"></i></button>
+          <div class="topbar-title">
+            <h2 id="current-panel-title">Overview & Control</h2>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <div class="live-indicator">
+            <span class="live-indicator-dot"></span>
+            <span>EMS LIVE FEED</span>
+          </div>
+          <div class="user-profile" id="user-profile-trigger" style="position: relative; cursor: pointer;">
+            <div class="user-avatar" id="avatar-display">A</div>
+            <div class="user-info">
+              <span class="user-name" id="name-display">Administrator</span>
+              <span class="user-role" id="email-display">admin@gmail.com</span>
+            </div>
+            
+            <!-- Dropdown Menu -->
+            <div class="glass-card profile-dropdown" id="profile-dropdown" style="display: none; position: absolute; top: calc(100% + 10px); right: 0; min-width: 220px; padding: 1rem; z-index: 1000; border-radius: var(--border-radius-sm); border: 1px solid var(--color-border); box-shadow: var(--shadow-lg);">
+              <div style="text-align: left;">
+                <div style="font-weight: 700; color: var(--color-text-primary); font-size: 0.95rem;" id="dropdown-name">Administrator</div>
+                <div style="color: var(--color-text-muted); font-size: 0.8rem;" id="dropdown-email">admin@gmail.com</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Panel 1: Overview & Control -->
+      <div id="admin-overview" class="dashboard-content-panel active">
+        <!-- Card Row (1 of 4 components) -->
+        <div class="dashboard-grid-4">
+          <div class="dashboard-card card-theme-green">
+            <div class="card-header">
+              <span class="card-title">State of Charge (SoC)</span>
+              <div class="card-icon"><i class="fas fa-battery-three-quarters"></i></div>
+            </div>
+            <div class="card-value" id="live-soc">78.5%</div>
+            <div class="card-footer-info trend-up">
+              <i class="fas fa-chevron-up"></i> <span>+2.4% charging</span>
+            </div>
+          </div>
+          <div class="dashboard-card card-theme-blue">
+            <div class="card-header">
+              <span class="card-title">Grid Feed-In</span>
+              <div class="card-icon"><i class="fas fa-bolt"></i></div>
+            </div>
+            <div class="card-value">1.28 MW</div>
+            <div class="card-footer-info trend-neutral">
+              <span>Stable Dispatch</span>
+            </div>
+          </div>
+          <div class="dashboard-card card-theme-yellow">
+            <div class="card-header">
+              <span class="card-title">Cell Temp Average</span>
+              <div class="card-icon"><i class="fas fa-temperature-high"></i></div>
+            </div>
+            <div class="card-value">24.2°C</div>
+            <div class="card-footer-info trend-neutral">
+              <span>Cooling Normal</span>
+            </div>
+          </div>
+          <div class="dashboard-card card-theme-red">
+            <div class="card-header">
+              <span class="card-title">Grid Frequency</span>
+              <div class="card-icon"><i class="fas fa-wave-square"></i></div>
+            </div>
+            <div class="card-value">60.02 Hz</div>
+            <div class="card-footer-info trend-neutral">
+              <span>Standard Range</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-grid-2-1">
+          <!-- Live Chart (2 of 4 components) -->
+          <div class="dashboard-panel">
+            <div class="panel-header">
+              <h3 class="panel-title">Realtime Grid Dispatch Trend</h3>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="adminTrendChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Relay Switches (3 of 4 components) -->
+          <div class="dashboard-panel">
+            <div class="panel-header">
+              <h3 class="panel-title">System Control Relays</h3>
+            </div>
+            
+            <div class="switch-control">
+              <div class="switch-label-desc">
+                <span class="switch-title">Inverter Main Relay</span>
+                <span class="switch-desc">Toggle power conversion links</span>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="control-inverter" checked>
+                <span class="slider-switch"></span>
+              </label>
+            </div>
+
+            <div class="switch-control">
+              <div class="switch-label-desc">
+                <span class="switch-title">Grid Isolation</span>
+                <span class="switch-desc">Isolate BESS to local microgrid</span>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="control-isolation">
+                <span class="slider-switch"></span>
+              </label>
+            </div>
+
+            <div class="switch-control">
+              <div class="switch-label-desc">
+                <span class="switch-title">Liquid Thermal Pump</span>
+                <span class="switch-desc">Forced cooling channels flow</span>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="control-thermal" checked>
+                <span class="slider-switch"></span>
+              </label>
+            </div>
+
+            <button class="btn-control-red" id="emergency-shutoff" style="margin-top: 1.5rem; width: 100%;"><i class="fas fa-radiation"></i> Emergency System Shutoff</button>
+          </div>
+        </div>
+
+        <!-- Alert Log (4 of 4 components) -->
+        <div class="dashboard-panel">
+          <div class="panel-header">
+            <h3 class="panel-title">Active Security & Safety Alert Stream</h3>
+          </div>
+          <div class="dashboard-table-wrapper">
+            <table class="dashboard-table">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Component</th>
+                  <th>Level</th>
+                  <th>Status Message</th>
+                </tr>
+              </thead>
+              <tbody id="alert-table-body">
+                <tr>
+                  <td>17:56:22</td>
+                  <td>Cell Pack C4</td>
+                  <td><span class="status-badge status-warning">Warning</span></td>
+                  <td>Voltage balancing variance exceeds 0.05V threshold. Balancing active.</td>
+                </tr>
+                <tr>
+                  <td>17:48:10</td>
+                  <td>Thermal Pump 2</td>
+                  <td><span class="status-badge status-online">Info</span></td>
+                  <td>Forced circulation triggered due to temperature escalation.</td>
+                </tr>
+                <tr>
+                  <td>17:12:05</td>
+                  <td>Modbus Gateway</td>
+                  <td><span class="status-badge status-online">Info</span></td>
+                  <td>TCP connection established with Salem Main Substation.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 2: Storage Cells -->
+      <div id="admin-storage" class="dashboard-content-panel">
+        <div class="dashboard-grid-4">
+          <!-- 1. Pack Status cards -->
+          <div class="dashboard-card card-theme-green">
+            <div class="card-header">
+              <span class="card-title">Battery Pack A</span>
+              <div class="card-icon"><i class="fas fa-battery-full"></i></div>
+            </div>
+            <div class="card-value">84%</div>
+            <div class="card-footer-info"><span>Temp: 24.1°C | Balanced</span></div>
+          </div>
+          <div class="dashboard-card card-theme-green">
+            <div class="card-header">
+              <span class="card-title">Battery Pack B</span>
+              <div class="card-icon"><i class="fas fa-battery-full"></i></div>
+            </div>
+            <div class="card-value">81%</div>
+            <div class="card-footer-info"><span>Temp: 23.9°C | Balanced</span></div>
+          </div>
+          <div class="dashboard-card card-theme-yellow">
+            <div class="card-header">
+              <span class="card-title">Battery Pack C</span>
+              <div class="card-icon"><i class="fas fa-battery-three-quarters"></i></div>
+            </div>
+            <div class="card-value">76%</div>
+            <div class="card-footer-info"><span>Temp: 25.4°C | Balancing</span></div>
+          </div>
+          <div class="dashboard-card card-theme-green">
+            <div class="card-header">
+              <span class="card-title">Battery Pack D</span>
+              <div class="card-icon"><i class="fas fa-battery-full"></i></div>
+            </div>
+            <div class="card-value">83%</div>
+            <div class="card-footer-info"><span>Temp: 23.8°C | Balanced</span></div>
+          </div>
+        </div>
+
+        <div class="dashboard-grid-1-1">
+          <!-- 2. Cell Health Gauge -->
+          <div class="dashboard-panel">
+            <div class="panel-header">
+              <h3 class="panel-title">SOH (State of Health) Estimate</h3>
+            </div>
+            <div style="text-align: center; padding: 2rem 0;">
+              <div style="font-size: 4rem; font-weight: 800; font-family: var(--font-heading); color: var(--color-primary);">98.4%</div>
+              <p style="color: var(--color-text-secondary); margin-top: 1rem;">Excellent chemical capacity retention. Total cycles: 482 / 8000.</p>
+              <div style="width: 100%; height: 8px; background: var(--color-navy-light); border-radius: 4px; margin-top: 1.5rem; overflow: hidden;">
+                <div style="width: 98.4%; height: 100%; background: var(--color-primary); border-radius: 4px;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Dynamic Cell Voltages -->
+          <div class="dashboard-panel">
+            <div class="panel-header">
+              <h3 class="panel-title">Cell Voltage Indexing</h3>
+            </div>
+            <div class="dashboard-table-wrapper">
+              <table class="dashboard-table">
+                <thead>
+                  <tr>
+                    <th>Cell ID</th>
+                    <th>Voltage</th>
+                    <th>Impedance</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Cell #01 - #16</td>
+                    <td>3.24 V</td>
+                    <td>0.12 mΩ</td>
+                    <td><span class="status-badge status-online">Normal</span></td>
+                  </tr>
+                  <tr>
+                    <td>Cell #17 - #32</td>
+                    <td>3.25 V</td>
+                    <td>0.14 mΩ</td>
+                    <td><span class="status-badge status-online">Normal</span></td>
+                  </tr>
+                  <tr>
+                    <td>Cell #33 - #48</td>
+                    <td>3.21 V</td>
+                    <td>0.18 mΩ</td>
+                    <td><span class="status-badge status-warning">Variance</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Pack Balance Adjuster -->
+        <div class="dashboard-panel">
+          <div class="panel-header">
+            <h3 class="panel-title">Active Cell Balancing Configuration</h3>
+          </div>
+          <div class="range-control">
+            <div class="range-label-wrapper">
+              <label for="balance-rate">Maximum Passive Discharge Balance Rate (mA)</label>
+              <span id="balance-rate-val" style="font-weight:700; color:var(--color-primary);">120 mA</span>
+            </div>
+            <input type="range" id="balance-rate" class="range-slider" min="10" max="300" step="10" value="120">
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 3: User Access Logs -->
+      <div id="admin-logs" class="dashboard-content-panel">
+        <!-- 1. Active sessions overview cards -->
+        <div class="dashboard-grid-4">
+          <div class="dashboard-card card-theme-green">
+            <div class="card-header">
+              <span class="card-title">Active Operator Sessions</span>
+              <div class="card-icon"><i class="fas fa-users"></i></div>
+            </div>
+            <div class="card-value">2</div>
+            <div class="card-footer-info"><span>1 admin | 1 analyst</span></div>
+          </div>
+        </div>
+
+        <div class="dashboard-grid-2-1">
+          <!-- 2. Session log table -->
+          <div class="dashboard-panel">
+            <div class="panel-header">
+              <h3 class="panel-title">Console Login Logs</h3>
+            </div>
+            <div class="dashboard-table-wrapper">
+              <table class="dashboard-table">
+                <thead>
+                  <tr>
+                    <th>User</th>
+                    <th>Role</th>
+                    <th>IP Address</th>
+                    <th>Login Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>admin@gmail.com</td>
+                    <td>Administrator</td>
+                    <td>192.168.1.42</td>
+                    <td>Today, 17:58</td>
+                  </tr>
+                  <tr>
+                    <td>analyst@gmail.com</td>
+                    <td>Energy Analyst</td>
+                    <td>192.168.1.95</td>
+                    <td>Today, 17:45</td>
+                  </tr>
+                  <tr>
+                    <td>admin@gmail.com</td>
+                    <td>Administrator</td>
+                    <td>192.168.1.42</td>
+                    <td>Yesterday, 09:12</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 3. Security Role editor -->
+          <div class="dashboard-panel">
+            <div class="panel-header">
+              <h3 class="panel-title">Access Policy Management</h3>
+            </div>
+            <div class="interactive-panel">
+              <div class="form-group-flex">
+                <label>Operator Email</label>
+                <input type="email" placeholder="operator@gmail.com" id="role-email">
+              </div>
+              <div class="form-group-flex">
+                <label>Assigned Access Role</label>
+                <select id="role-select">
+                  <option value="analyst">Energy Analyst (Read-Only)</option>
+                  <option value="admin">Energy Administrator (Full-Control)</option>
+                </select>
+              </div>
+              <button class="btn btn-primary" id="btn-save-role" style="margin-top: 1rem;">Update Privilege Policy</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Security Alerts -->
+        <div class="dashboard-panel">
+          <div class="panel-header">
+            <h3 class="panel-title">Security Violation Audits</h3>
+          </div>
+          <div class="dashboard-table-wrapper">
+            <table class="dashboard-table">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>IP Address</th>
+                  <th>Violation Action Attempted</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Yesterday, 22:14</td>
+                  <td>185.220.101.4</td>
+                  <td>Unauthorized REST API request to /api/relays/shutoff</td>
+                  <td><span class="status-badge status-offline">Blocked</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 4: System Settings -->
+      <div id="admin-config" class="dashboard-content-panel">
+        <div class="dashboard-grid-1-1">
+          <!-- 1. Limit sliders -->
+          <div class="dashboard-panel">
+            <div class="panel-header">
+              <h3 class="panel-title">EMS Threshold Safety Controls</h3>
+            </div>
+            
+            <div class="range-control" style="margin-bottom: 2rem;">
+              <div class="range-label-wrapper">
+                <label for="limit-max-soc">Max SOC Guard Charge Limit</label>
+                <span id="limit-max-val" style="font-weight:700; color:var(--color-primary);">95%</span>
+              </div>
+              <input type="range" id="limit-max-soc" class="range-slider" min="80" max="100" value="95">
+            </div>
+
+            <div class="range-control" style="margin-bottom: 2rem;">
+              <div class="range-label-wrapper">
+                <label for="limit-min-soc">Min SOC Guard Discharge Limit</label>
+                <span id="limit-min-val" style="font-weight:700; color:#ef4444;">15%</span>
+              </div>
+              <input type="range" id="limit-min-soc" class="range-slider" min="5" max="30" value="15">
+            </div>
+          </div>
+
+          <!-- 2. Alert Routing -->
+          <div class="dashboard-panel">
+            <div class="panel-header">
+              <h3 class="panel-title">Critical Notification Routes</h3>
+            </div>
+            <div class="interactive-panel">
+              <div class="form-group-flex">
+                <label>Admin Alert Email</label>
+                <input type="email" value="admin@gmail.com" id="routing-email">
+              </div>
+              <div class="form-group-flex">
+                <label>Alert Trigger Severity</label>
+                <select id="routing-severity">
+                  <option value="warning">Warning and above (Recommended)</option>
+                  <option value="critical">Critical Faults Only</option>
+                  <option value="all">All Logs & Events</option>
+                </select>
+              </div>
+              <button class="btn btn-primary" id="btn-save-routing" style="margin-top: 1rem;">Save Notification Routes</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-grid-1-1">
+          <!-- 3. Backup Schedule -->
+          <div class="dashboard-panel">
+            <div class="panel-header">
+              <h3 class="panel-title">Telemetry Backup Settings</h3>
+            </div>
+            <div class="interactive-panel">
+              <div class="form-group-flex">
+                <label>Backup Interval</label>
+                <select id="backup-interval">
+                  <option value="daily">Every 24 Hours (Daily)</option>
+                  <option value="weekly">Every Sunday (Weekly)</option>
+                  <option value="monthly">Every 1st of Month (Monthly)</option>
+                </select>
+              </div>
+              <div class="form-group-flex">
+                <label>Cloud Backup Endpoint</label>
+                <input type="text" value="s3://stackly-telemetry-oregon-backup/" id="backup-endpoint">
+              </div>
+              <button class="btn btn-secondary" id="btn-save-backup">Update Backup Rules</button>
+            </div>
+          </div>
+
+          <!-- 4. Grid-tie Settings -->
+          <div class="dashboard-panel">
+            <div class="panel-header">
+              <h3 class="panel-title">Grid Interconnection Standards</h3>
+            </div>
+            <div class="switch-control">
+              <div class="switch-label-desc">
+                <span class="switch-title">IEEE 1547 Mode</span>
+                <span class="switch-desc">Follow US grid interconnection standard</span>
+              </div>
+              <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider-switch"></span>
+              </label>
+            </div>
+            <div class="switch-control">
+              <div class="switch-label-desc">
+                <span class="switch-title">Dynamic Grid Inertia Emulation</span>
+                <span class="switch-desc">Simulate mechanical inertia for frequency drops</span>
+              </div>
+              <label class="switch">
+                <input type="checkbox">
+                <span class="slider-switch"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 5: Audit Reports -->
+      <div id="admin-audit" class="dashboard-content-panel">
+        <div class="dashboard-grid-2-1">
+          <!-- 1. Reliability Indicator -->
+          <div class="dashboard-panel">
+            <div class="panel-header">
+              <h3 class="panel-title">Facility Reliability Metric</h3>
+            </div>
+            <div style="text-align: center; padding: 2rem 0;">
+              <div style="font-size: 4.5rem; font-weight: 800; font-family: var(--font-heading); color: var(--color-primary);">99.982%</div>
+              <p style="color: var(--color-text-secondary); margin-top: 0.5rem;">System Availability Index (MTBF: 12,480 hrs)</p>
+            </div>
+          </div>
+
+          <!-- 2. Report Filters -->
+          <div class="dashboard-panel">
+            <div class="panel-header">
+              <h3 class="panel-title">Filter Audit History</h3>
+            </div>
+            <div class="interactive-panel">
+              <div class="form-group-flex">
+                <label>Audit Category</label>
+                <select id="audit-filter-cat">
+                  <option value="all">All Categories</option>
+                  <option value="security">Security Access</option>
+                  <option value="thermal">Thermal Outliers</option>
+                  <option value="frequency">Grid Fluctuations</option>
+                </select>
+              </div>
+              <div class="form-group-flex">
+                <label>Timeframe Range</label>
+                <select id="audit-filter-time">
+                  <option value="30">Past 30 Days</option>
+                  <option value="90">Past 90 Days</option>
+                  <option value="365">Past Year</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Incident Logs list -->
+        <div class="dashboard-panel" style="margin-bottom: 2rem;">
+          <div class="panel-header">
+            <h3 class="panel-title">Logged Incidents & Interventions</h3>
+          </div>
+          <div class="dashboard-table-wrapper">
+            <table class="dashboard-table">
+              <thead>
+                <tr>
+                  <th>Event ID</th>
+                  <th>Date</th>
+                  <th>Category</th>
+                  <th>Action Taken</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>#EV-8842</td>
+                  <td>2026-06-25</td>
+                  <td>Thermal Guard</td>
+                  <td>Liquid loop flow rate increased from 12L/m to 20L/m. Temperature returned to 23.5°C.</td>
+                </tr>
+                <tr>
+                  <td>#EV-8711</td>
+                  <td>2026-06-18</td>
+                  <td>Substation Sync</td>
+                  <td>IEEE 1547 transient frequency drift detected. Inverter power factor adjusted.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 4. Report export button -->
+        <div class="dashboard-panel">
+          <div class="panel-header">
+            <h3 class="panel-title">Export Verified System Log Compliance Reports</h3>
+          </div>
+          <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem; font-size: 0.9rem;">Generate NERC-compliant system logs for submission to regional transmission operators.</p>
+          <button class="btn btn-secondary" id="btn-export-audit" style="align-self: flex-start;">Generate Compliance PDF <i class="fas fa-file-export"></i></button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- CDNs for animations & Charts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Custom Dashboard Script -->
+  <script src="js/dashboard-admin.js"></script>
+</body>
+</html>

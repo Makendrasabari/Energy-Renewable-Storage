@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Stackly - Sizing Consultations & Technical Support</title>
+  <meta name="description" content="Reach out to Stackly's application engineers for sizing analysis, product documentation, or general support queries.">
+  
+  <!-- Fonts & Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <!-- Preloader Screen -->
+  <div id="preloader" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: #07090e; z-index: 99999; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease, visibility 0.5s ease;">
+    <div class="preloader-content" style="display: flex; flex-direction: column; align-items: center; gap: 1.5rem;">
+      <div class="preloader-letters" style="display: flex; gap: 0rem; font-family: var(--font-heading); font-size: 2.5rem; font-weight: 800; letter-spacing: 0px; color: white; transition: gap 0.8s cubic-bezier(0.25, 1, 0.5, 1);">
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(30px);">S</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(15px);">T</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(0px);">A</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(-15px);">C</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(-30px);">K</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(-45px); color: var(--color-primary);">L</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(-60px); color: var(--color-primary);">Y</span>
+      </div>
+      <div style="width: 120px; height: 2px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; position: relative;">
+        <div id="preloader-bar" style="position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, var(--color-primary), transparent); animation: loading-bar 1.5s infinite ease-in-out;"></div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    @keyframes loading-bar {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+  </style>
+
+  <script>
+    (function() {
+      const preloader = document.getElementById('preloader');
+      const lettersContainer = document.querySelector('.preloader-letters');
+      const letters = document.querySelectorAll('.p-letter');
+      
+      setTimeout(() => {
+        if (lettersContainer) lettersContainer.style.gap = '1.25rem';
+        letters.forEach(letter => {
+          letter.style.opacity = '1';
+          letter.style.transform = 'translateX(0)';
+        });
+      }, 100);
+
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          if (preloader) {
+            preloader.style.opacity = '0';
+            preloader.style.visibility = 'hidden';
+            setTimeout(() => preloader.remove(), 500);
+          }
+        }, 1200);
+      });
+    })();
+  </script>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Sticky Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <img src="assets/logo stk.webp" alt="Stackly Logo" style="height: 38px; width: auto; object-fit: contain;">
+      </a>
+      
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="solutions.html">Solutions</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="contact.html" class="active">Contact</a></li>
+        <li class="nav-cta-mobile" style="display: none;"><a href="login.html" class="btn btn-primary" style="color: white; width: 100%; text-align: center;">Login</a></li>
+      </ul>
+
+      <div class="nav-cta">
+        <a href="login.html" class="btn btn-primary" style="color: white;">Login</a>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Section 1: Split Hero / Introduction -->
+  <section class="split-hero">
+    <div class="container split-hero-container">
+      <div class="split-hero-content">
+        <span class="section-tag">Contact Us</span>
+        <h1>Get In Touch With Our Application Engineers</h1>
+        <p>Deploying grid storage requires precise sizing. Contact our engineering team for customized simulation models.</p>
+      </div>
+      <div class="split-hero-image-wrapper">
+        <img src="assets/hero-slider-4.webp" alt="Residential smart BESS cell">
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 1.5: Contact Info Cards -->
+  <section id="contact-info" class="fade-up" style="padding: 4rem 0 2rem 0;">
+    <div class="container">
+      <div class="stats-grid stagger-cards">
+        <div class="glass-card" style="text-align: center; padding: 2rem;">
+          <div style="font-size: 2.2rem; color: var(--color-primary); margin-bottom: 1rem;"><i class="fas fa-envelope"></i></div>
+          <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem;">Email Inquiry</h3>
+          <p style="color: var(--color-text-secondary); font-size: 0.85rem;">engineering@stackly.com</p>
+          <p style="color: var(--color-text-muted); font-size: 0.75rem;">Response in under 24 Hours</p>
+        </div>
+        <div class="glass-card" style="text-align: center; padding: 2rem;">
+          <div style="font-size: 2.2rem; color: var(--color-secondary); margin-bottom: 1rem;"><i class="fas fa-phone-alt"></i></div>
+          <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem;">Call Support</h3>
+          <p style="color: var(--color-text-secondary); font-size: 0.85rem;">+1 (503) 555-0199</p>
+          <p style="color: var(--color-text-muted); font-size: 0.75rem;">Mon-Fri 8:00 AM - 6:00 PM PST</p>
+        </div>
+        <div class="glass-card" style="text-align: center; padding: 2rem;">
+          <div style="font-size: 2.2rem; color: #eab308; margin-bottom: 1rem;"><i class="fas fa-map-marker-alt"></i></div>
+          <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem;">Head Office</h3>
+          <p style="color: var(--color-text-secondary); font-size: 0.85rem;">1200 Center St NE, Salem, OR</p>
+          <p style="color: var(--color-text-muted); font-size: 0.75rem;">United States</p>
+        </div>
+        <div class="glass-card" style="text-align: center; padding: 2rem;">
+          <div style="font-size: 2.2rem; color: #ef4444; margin-bottom: 1rem;"><i class="fas fa-comments"></i></div>
+          <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem;">Live Chat</h3>
+          <p style="color: var(--color-text-secondary); font-size: 0.85rem;">Available on our portal</p>
+          <p style="color: var(--color-text-muted); font-size: 0.75rem;">Daily 7:00 AM – 10:00 PM PST</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Contact Form -->
+  <section id="form-section" style="background: var(--color-navy-dark);" class="fade-up">
+    <div class="container">
+      <div style="max-width: 700px; margin: 0 auto;">
+        <div class="section-header-center" style="margin-bottom: 3rem;">
+          <span class="section-tag">RFP Requests</span>
+          <h2 class="section-title">Request Sizing Assessment</h2>
+          <p class="section-desc" style="font-size: 1rem; margin-bottom: 0;">Submit details about your grid integration requirements to receive custom simulation estimates.</p>
+        </div>
+
+        <!-- Custom Validation styling -->
+        <form id="contact-form" class="glass-card" style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; width: 100%;">
+            <div class="form-group-flex">
+              <label for="form-name">Full Name</label>
+              <input type="text" id="form-name" placeholder="John Doe" required>
+            </div>
+            <div class="form-group-flex">
+              <label for="form-email">Gmail Address</label>
+              <input type="email" id="form-email" placeholder="name@gmail.com" required>
+            </div>
+          </div>
+          
+          <div class="form-group-flex" style="width: 100%;">
+            <label for="form-subject">Inquiry Subject</label>
+            <select id="form-subject" style="width: 100%;" required>
+              <option value="">Select an option</option>
+              <option value="utility">Utility-Scale BESS (Megawatt+)</option>
+              <option value="ci">Commercial & Industrial Battery Hub</option>
+              <option value="ems">Stackly EMS Software Trial</option>
+              <option value="career">Career / Engineering Internships</option>
+            </select>
+          </div>
+          
+          <div class="form-group-flex" style="width: 100%;">
+            <label for="form-message">Grid Requirements & Specifications</label>
+            <textarea id="form-message" rows="5" placeholder="Specify daily loads, primary sources, capacity goals, and local grid connection limits..." style="background: var(--color-navy-light); border: 1px solid var(--color-border); border-radius: var(--border-radius-sm); color: var(--color-text-primary); padding: 0.75rem; font-size: 0.95rem; font-family: var(--font-body); outline: none; transition: var(--transition-fast); resize: vertical;" required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="margin-top: 1rem; width: 100%;">Send Message <i class="fas fa-paper-plane"></i></button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: FAQ Accordion -->
+  <section id="faq" class="fade-up">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-tag">Help Desk</span>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-desc">Common technical questions regarding system integration, longevity, and security.</p>
+      </div>
+
+      <div style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem;">
+        <!-- FAQ 1 -->
+        <div class="faq-item glass-card faq-item-hover" style="padding: 1.25rem 2rem; border-radius: var(--border-radius-sm); overflow: hidden; transition: var(--transition-normal);">
+          <div class="faq-header" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+            <h3 style="font-size: 1.1rem; font-weight: 600;">What chemical composition does Stackly use?</h3>
+            <i class="fas fa-chevron-down" style="color: var(--color-primary); transition: var(--transition-normal);"></i>
+          </div>
+          <div class="faq-content" style="max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out;">
+            <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin-top: 1rem;">By default, Stackly uses Lithium Iron Phosphate (LFP) chemistry due to its thermal stability, low cycle degradation, and high round-trip efficiency. For long-duration storage (8+ hours), we offer Vanadium Redox Flow systems.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="faq-item glass-card faq-item-hover" style="padding: 1.25rem 2rem; border-radius: var(--border-radius-sm); overflow: hidden; transition: var(--transition-normal);">
+          <div class="faq-header" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+            <h3 style="font-size: 1.1rem; font-weight: 600;">How does liquid cooling maximize battery lifetime?</h3>
+            <i class="fas fa-chevron-down" style="color: var(--color-primary); transition: var(--transition-normal);"></i>
+          </div>
+          <div class="faq-content" style="max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out;">
+            <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin-top: 1rem;">Batteries degrade exponentially under excessive temperatures. Liquid glycol channels absorb cell heat much faster than HVAC air blowers, ensuring that individual cells remain inside the narrow 20-28°C range required for 20-year lifetimes.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="faq-item glass-card faq-item-hover" style="padding: 1.25rem 2rem; border-radius: var(--border-radius-sm); overflow: hidden; transition: var(--transition-normal);">
+          <div class="faq-header" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+            <h3 style="font-size: 1.1rem; font-weight: 600;">Can Stackly systems black-start a microgrid?</h3>
+            <i class="fas fa-chevron-down" style="color: var(--color-primary); transition: var(--transition-normal);"></i>
+          </div>
+          <div class="faq-content" style="max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out;">
+            <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin-top: 1rem;">Yes. Our utility-scale bi-directional smart inverters support grid-forming capabilities. In the event of a total regional blackout, Stackly BESS systems can safely re-energize local lines and synchronize local solar generation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Salem Head Office Location (Google Map) -->
+  <section id="map-section" style="background: var(--color-navy-dark);" class="fade-up">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-tag">Headquarters</span>
+        <h2 class="section-title">Visit Our Salem Headquarters</h2>
+        <p class="section-desc">Located at the heart of Salem, Oregon's technology corridor.</p>
+      </div>
+
+      <div class="glass-card" style="padding: 0; border-radius: var(--border-radius-md); overflow: hidden; height: 400px; border: 1px solid var(--color-border);">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d45199.1678129775!2d-123.03698064999999!3d44.942914149999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x54bfc10128cf7e85%3A0x6b772c676f2d2b5d!2sSalem%2C%20OR!5e0!3m2!1sen!2sus!4v1782736000000!5m2!1sen!2sus" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: Global Offices -->
+  <section id="global-offices" class="fade-up">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-tag">Global Presence</span>
+        <h2 class="section-title">International Inquiry Hubs</h2>
+        <p class="section-desc">Connect with our regional engineering teams situated across active clean energy hubs.</p>
+      </div>
+
+      <div class="projects-grid stagger-cards">
+        <div class="glass-card" style="padding: 2rem;">
+          <h3 style="font-size: 1.2rem; margin-bottom: 0.75rem; color: var(--color-primary);">London, UK</h3>
+          <p style="color: var(--color-text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">Serving the European Grid network with offshore wind integrations.</p>
+          <span style="font-size: 0.8rem; font-weight: 600;"><i class="fas fa-phone-alt" style="margin-right: 0.25rem;"></i> +44 20 7946 0958</span>
+        </div>
+        <div class="glass-card" style="padding: 2rem;">
+          <h3 style="font-size: 1.2rem; margin-bottom: 0.75rem; color: var(--color-secondary);">Munich, Germany</h3>
+          <p style="color: var(--color-text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">Supporting industrial commercial microgrid facilities inside Germany.</p>
+          <span style="font-size: 0.8rem; font-weight: 600;"><i class="fas fa-phone-alt" style="margin-right: 0.25rem;"></i> +49 89 2019 7432</span>
+        </div>
+        <div class="glass-card" style="padding: 2rem;">
+          <h3 style="font-size: 1.2rem; margin-bottom: 0.75rem; color: #eab308;">Tokyo, Japan</h3>
+          <p style="color: var(--color-text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">Focused on residential virtual power plants (VPP) and smart systems.</p>
+          <span style="font-size: 0.8rem; font-weight: 600;"><i class="fas fa-phone-alt" style="margin-right: 0.25rem;"></i> +81 3 5555 0142</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <!-- Col 1 -->
+        <div class="footer-col footer-logo-desc">
+          <a href="index.html" class="logo">
+            <img src="assets/logo stk.webp" alt="Stackly Logo" style="height: 38px; width: auto; object-fit: contain;">
+          </a>
+          <p>Next-generation, premium renewable energy storage platforms designed for grid stability, microgrids, and peak shaving applications globally.</p>
+          <div class="social-links">
+            <a href="404.html" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="404.html" class="social-icon" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="404.html" class="social-icon" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="404.html" class="social-icon" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <!-- Col 2 -->
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="solutions.html">Our Solutions</a></li>
+            <li><a href="resources.html">Resources Hub</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        <!-- Col 3 -->
+        <div class="footer-col">
+          <h4>Solutions</h4>
+          <ul class="footer-links">
+            <li><a href="404.html">Grid Storage (BESS)</a></li>
+            <li><a href="404.html">C&I Peak Shaving</a></li>
+            <li><a href="404.html">Smart EMS software</a></li>
+            <li><a href="404.html">Microgrid Systems</a></li>
+          </ul>
+        </div>
+        <!-- Col 4 -->
+        <div class="footer-col">
+          <h4>Stackly Details</h4>
+          <ul class="contact-details-list">
+            <li><i class="fas fa-map-marker-alt"></i> 1200 Center St NE, Salem, OR 97301</li>
+            <li><i class="fas fa-phone-alt"></i> +1 (503) 555-0199</li>
+            <li><i class="fas fa-envelope"></i> engineering@stackly.com</li>
+          </ul>
+          <!-- Google Map Salem OR Embed -->
+          <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d45199.1678129775!2d-123.03698064999999!3d44.942914149999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x54bfc10128cf7e85%3A0x6b772c676f2d2b5d!2sSalem%2C%20OR!5e0!3m2!1sen!2sus!4v1782736000000!5m2!1sen!2sus" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Stackly Energy Inc. All Rights Reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="javascript:void(0)">Privacy Policy</a>
+          <a href="javascript:void(0)">Terms of Use</a>
+          <a href="javascript:void(0)">Security Audit</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CDNs for animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  
+  <!-- Custom scripts -->
+  <script src="js/main.js"></script>
+  <script src="js/contact.js"></script>
+</body>
+</html>

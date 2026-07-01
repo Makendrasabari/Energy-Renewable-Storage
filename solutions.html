@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stackly Solutions - Grid-Scale BESS & EMS Software</title>
+  <meta name="description" content="Explore Stackly's utility-scale storage systems, C&I battery setups, cloud energy software, and size your own system using our estimator.">
+  
+  <!-- Fonts & Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <!-- Preloader Screen -->
+  <div id="preloader" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: #07090e; z-index: 99999; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease, visibility 0.5s ease;">
+    <div class="preloader-content" style="display: flex; flex-direction: column; align-items: center; gap: 1.5rem;">
+      <div class="preloader-letters" style="display: flex; gap: 0rem; font-family: var(--font-heading); font-size: 2.5rem; font-weight: 800; letter-spacing: 0px; color: white; transition: gap 0.8s cubic-bezier(0.25, 1, 0.5, 1);">
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(30px);">S</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(15px);">T</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(0px);">A</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(-15px);">C</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(-30px);">K</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(-45px); color: var(--color-primary);">L</span>
+        <span class="p-letter" style="display: inline-block; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; opacity: 0; transform: translateX(-60px); color: var(--color-primary);">Y</span>
+      </div>
+      <div style="width: 120px; height: 2px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; position: relative;">
+        <div id="preloader-bar" style="position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, var(--color-primary), transparent); animation: loading-bar 1.5s infinite ease-in-out;"></div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    @keyframes loading-bar {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+  </style>
+
+  <script>
+    (function() {
+      const preloader = document.getElementById('preloader');
+      const lettersContainer = document.querySelector('.preloader-letters');
+      const letters = document.querySelectorAll('.p-letter');
+      
+      setTimeout(() => {
+        if (lettersContainer) lettersContainer.style.gap = '1.25rem';
+        letters.forEach(letter => {
+          letter.style.opacity = '1';
+          letter.style.transform = 'translateX(0)';
+        });
+      }, 100);
+
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          if (preloader) {
+            preloader.style.opacity = '0';
+            preloader.style.visibility = 'hidden';
+            setTimeout(() => preloader.remove(), 500);
+          }
+        }, 1200);
+      });
+    })();
+  </script>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Sticky Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <img src="assets/logo stk.webp" alt="Stackly Logo" style="height: 38px; width: auto; object-fit: contain;">
+      </a>
+      
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="solutions.html" class="active">Solutions</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="nav-cta-mobile" style="display: none;"><a href="login.html" class="btn btn-primary" style="color: white; width: 100%; text-align: center;">Login</a></li>
+      </ul>
+
+      <div class="nav-cta">
+        <a href="login.html" class="btn btn-primary" style="color: white;">Login</a>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Section 1: Split Hero / Solutions Intro -->
+  <section class="split-hero">
+    <div class="container split-hero-container">
+      <div class="split-hero-content">
+        <span class="section-tag">Our Products</span>
+        <h1>Custom Utility & Industrial Storage Platforms</h1>
+        <p>Stackly creates modular, custom BESS solutions integrated with smart cloud software to maximize reliability, utility arbitration, and thermal protection.</p>
+      </div>
+      <div class="split-hero-image-wrapper">
+        <img src="assets/hero-slider-3.webp" alt="Containerized Energy BESS">
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Grid-Scale BESS -->
+  <section id="grid" class="fade-up">
+    <div class="container">
+      <div class="why-choose-grid">
+        <div style="position: relative;">
+          <div style="width: 100%; height: 350px; background-image: linear-gradient(to right, rgba(11,15,25,0.1), rgba(11,15,25,0.7)), url('assets/hero-slider-1.webp'); background-size: cover; background-position: center; border-radius: var(--border-radius-md); border: 1px solid var(--color-border); overflow: hidden;"></div>
+        </div>
+        
+        <div>
+          <span class="section-tag">Utility Operations</span>
+          <h2 class="section-title">Utility-Scale BESS (PowerCube Pro)</h2>
+          <p style="color: var(--color-text-secondary); margin-bottom: 2rem;">Stackly PowerCube Pro delivers containerized battery capacities from 2MWh to 10MWh, engineered for utilities, solar farms, and regional grid operators.</p>
+          
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
+            <li style="display: flex; gap: 0.75rem;"><i class="fas fa-check-circle" style="color: var(--color-primary); margin-top: 0.25rem;"></i> <span><strong>Modular Expansion:</strong> Interlink dozens of container configurations to support gigawatt-level capacities.</span></li>
+            <li style="display: flex; gap: 0.75rem;"><i class="fas fa-check-circle" style="color: var(--color-primary); margin-top: 0.25rem;"></i> <span><strong>Grid Compliance:</strong> Active power-frequency support, inertia emulation, and black-start capabilities.</span></li>
+            <li style="display: flex; gap: 0.75rem;"><i class="fas fa-check-circle" style="color: var(--color-primary); margin-top: 0.25rem;"></i> <span><strong>Liquid Cooled:</strong> Active glycol channels minimize degradation spikes across individual battery racks.</span></li>
+          </ul>
+          
+          <a href="404.html" class="btn btn-primary">Estimate Your Size <i class="fas fa-arrow-down"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Commercial & Industrial BESS -->
+  <section id="ci" style="background: var(--color-navy-dark);" class="fade-up">
+    <div class="container">
+      <div class="why-choose-grid">
+        <div>
+          <span class="section-tag">Commercial Operations</span>
+          <h2 class="section-title">Commercial & Industrial Battery Hubs</h2>
+          <p style="color: var(--color-text-secondary); margin-bottom: 2rem;">Our commercial product configurations enable warehouses, hospitals, microgrids, and data centers to avoid volatile electric tariffs.</p>
+          
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
+            <li style="display: flex; gap: 0.75rem;"><i class="fas fa-check-circle" style="color: var(--color-secondary); margin-top: 0.25rem;"></i> <span><strong>Demand Peak Shaving:</strong> Automatically discharges battery during the building's highest demand intervals.</span></li>
+            <li style="display: flex; gap: 0.75rem;"><i class="fas fa-check-circle" style="color: var(--color-secondary); margin-top: 0.25rem;"></i> <span><strong>Uninterrupted Power (UPS):</strong> Seamless sub-cycle transition (< 8ms) in the event of grid blackouts.</span></li>
+            <li style="display: flex; gap: 0.75rem;"><i class="fas fa-check-circle" style="color: var(--color-secondary); margin-top: 0.25rem;"></i> <span><strong>Microgrid Orchestration:</strong> Pairs directly with on-site solar carports and local diesel backups.</span></li>
+          </ul>
+          
+          <a href="404.html" class="btn btn-secondary">Request C&I brochure</a>
+        </div>
+        
+        <div style="position: relative;">
+          <div style="width: 100%; height: 350px; background-image: linear-gradient(to left, rgba(11,15,25,0.1), rgba(11,15,25,0.7)), url('assets/hero-slider-4.webp'); background-size: cover; background-position: center; border-radius: var(--border-radius-md); border: 1px solid var(--color-border); overflow: hidden;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: EMS Software & Analytics -->
+  <section id="software" class="fade-up">
+    <div class="container">
+      <div class="why-choose-grid">
+        <div style="position: relative;">
+          <div style="width: 100%; height: 350px; background-image: linear-gradient(to right, rgba(11,15,25,0.1), rgba(11,15,25,0.7)), url('assets/hero-slider-5.webp'); background-size: cover; background-position: center; border-radius: var(--border-radius-md); border: 1px solid var(--color-border); overflow: hidden;"></div>
+        </div>
+        
+        <div>
+          <span class="section-tag">Software Suite</span>
+          <h2 class="section-title">Stackly EMS Core Orchestration</h2>
+          <p style="color: var(--color-text-secondary); margin-bottom: 2rem;">Hardware is only as good as the software directing it. Stackly EMS Core provides real-time control, IoT node monitoring, temperature control loops, and market dispatch predictions.</p>
+          
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
+            <li style="display: flex; gap: 0.75rem;"><i class="fas fa-check-circle" style="color: var(--color-primary); margin-top: 0.25rem;"></i> <span><strong>AI Dispatch:</strong> Predicts local weather patterns and pricing to time charge cycles.</span></li>
+            <li style="display: flex; gap: 0.75rem;"><i class="fas fa-check-circle" style="color: var(--color-primary); margin-top: 0.25rem;"></i> <span><strong>SCADA Integration:</strong> Built-in support for DNP3, Modbus TCP, and IEC 61850 grid protocols.</span></li>
+            <li style="display: flex; gap: 0.75rem;"><i class="fas fa-check-circle" style="color: var(--color-primary); margin-top: 0.25rem;"></i> <span><strong>Live Analytics:</strong> High-precision logging of State of Charge (SoC) and State of Health (SoH).</span></li>
+          </ul>
+          
+          <a href="404.html" class="btn btn-outline"><i class="fas fa-play"></i> Launch Demo Console</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: Sizing Configurator -->
+  <section id="configurator" style="background: var(--color-navy-dark);" class="fade-up">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-tag">Interactive Sizing</span>
+        <h2 class="section-title">Storage Sizing & Cost Configurator</h2>
+        <p class="section-desc">Estimate your optimal battery capacity, panel requirement, and cost guidelines based on daily load specifications.</p>
+      </div>
+
+      <div class="calc-grid">
+        <div class="glass-card" style="display: flex; flex-direction: column; gap: 1.5rem;">
+          <div class="form-group-flex" style="width: 100%;">
+            <label for="config-source">Primary Generation Source</label>
+            <select id="config-source" style="width: 100%;">
+              <option value="solar">Solar PV Integrated</option>
+              <option value="wind">Wind Turbines Integrated</option>
+              <option value="hybrid">Solar & Wind Hybrid</option>
+              <option value="grid">Grid Only (Arbitrage & Backup)</option>
+            </select>
+          </div>
+          
+          <div class="range-control">
+            <div class="range-label-wrapper">
+              <label for="config-load">Average Daily Energy Load (kWh)</label>
+              <span id="config-load-val" style="font-weight: 700; color: var(--color-primary);">500 kWh</span>
+            </div>
+            <input type="range" id="config-load" class="range-slider" min="50" max="5000" step="50" value="500">
+          </div>
+          
+          <div class="range-control">
+            <div class="range-label-wrapper">
+              <label for="config-autonomy">Battery Autonomy Target (Hours)</label>
+              <span id="config-autonomy-val" style="font-weight: 700; color: var(--color-secondary);">6 Hours</span>
+            </div>
+            <input type="range" id="config-autonomy" class="range-slider" min="2" max="48" step="1" value="6">
+          </div>
+        </div>
+
+        <div class="glass-card config-output-card" style="display: flex; flex-direction: column; gap: 1.25rem;">
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; text-align: center; border-bottom: 1px solid var(--color-border); padding-bottom: 0.75rem;">Calculated Project Scope</h3>
+          
+          <div style="display: flex; justify-content: space-between; font-size: 0.95rem;">
+            <span style="color: var(--color-text-secondary);">Target Battery Capacity:</span>
+            <strong id="out-battery-capacity" style="color: var(--color-primary);">294 kWh</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.95rem;">
+            <span style="color: var(--color-text-secondary);">Recommended Inverter Rating:</span>
+            <strong id="out-inverter-rating">52.1 kW</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.95rem;">
+            <span style="color: var(--color-text-secondary);">Solar PV Capacity Needed:</span>
+            <strong id="out-solar-needed" style="color: var(--color-secondary);">144.4 kW</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.95rem;">
+            <span style="color: var(--color-text-secondary);">Annual Carbon Offset:</span>
+            <strong id="out-annual-carbon" style="color: var(--color-primary);">85.8 Tons</strong>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; font-size: 1.15rem; border-top: 1px solid var(--color-border); padding-top: 1rem; margin-top: 0.5rem;">
+            <span>Estimated System Cost:</span>
+            <strong id="out-est-cost" style="color: #eab308;">$269,720</strong>
+          </div>
+          
+          <a href="404.html" class="btn btn-primary" style="margin-top: 0.5rem;">Submit Configuration for RFP <i class="fas fa-paper-plane"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <!-- Col 1 -->
+        <div class="footer-col footer-logo-desc">
+          <a href="index.html" class="logo">
+            <img src="assets/logo stk.webp" alt="Stackly Logo" style="height: 38px; width: auto; object-fit: contain;">
+          </a>
+          <p>Next-generation, premium renewable energy storage platforms designed for grid stability, microgrids, and peak shaving applications globally.</p>
+          <div class="social-links">
+            <a href="404.html" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="404.html" class="social-icon" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="404.html" class="social-icon" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="404.html" class="social-icon" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <!-- Col 2 -->
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="solutions.html">Our Solutions</a></li>
+            <li><a href="resources.html">Resources Hub</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        <!-- Col 3 -->
+        <div class="footer-col">
+          <h4>Solutions</h4>
+          <ul class="footer-links">
+            <li><a href="404.html">Grid Storage (BESS)</a></li>
+            <li><a href="404.html">C&I Peak Shaving</a></li>
+            <li><a href="404.html">Smart EMS software</a></li>
+            <li><a href="404.html">Microgrid Systems</a></li>
+          </ul>
+        </div>
+        <!-- Col 4 -->
+        <div class="footer-col">
+          <h4>Stackly Details</h4>
+          <ul class="contact-details-list">
+            <li><i class="fas fa-map-marker-alt"></i> 1200 Center St NE, Salem, OR 97301</li>
+            <li><i class="fas fa-phone-alt"></i> +1 (503) 555-0199</li>
+            <li><i class="fas fa-envelope"></i> engineering@stackly.com</li>
+          </ul>
+          <!-- Google Map Salem OR Embed -->
+          <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d45199.1678129775!2d-123.03698064999999!3d44.942914149999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x54bfc10128cf7e85%3A0x6b772c676f2d2b5d!2sSalem%2C%20OR!5e0!3m2!1sen!2sus!4v1782736000000!5m2!1sen!2sus" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Stackly Energy Inc. All Rights Reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="javascript:void(0)">Privacy Policy</a>
+          <a href="javascript:void(0)">Terms of Use</a>
+          <a href="javascript:void(0)">Security Audit</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CDNs for animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  
+  <!-- Custom scripts -->
+  <script src="js/main.js"></script>
+  <script src="js/contact.js"></script>
+</body>
+</html>
